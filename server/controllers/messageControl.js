@@ -1,7 +1,4 @@
 const { Message } = require('../data/models/messageSchema');
-const { User } = require('../data/models/userSchema');
-const { Conversation } = require('../data/models/conversationSchema');
-const mongoose = require('mongoose');
 
 const getMessage = async (req, res) => {
     await Message.find()
@@ -17,18 +14,18 @@ const getAllMessages = async (req, res) => {
     await Message.aggregate([
         {
             $lookup: {
-                from: 'User',
-                localField: 'to',
+                from: 'users',
+                localField: 'sender',
                 foreignField: '_id',
-                as: 'messageTo',
+                as: 'senderObj',
             },
         },
         {
             $lookup: {
                 from: 'users',
-                localField: 'from',
+                localField: 'recipient',
                 foreignField: '_id',
-                as: 'from',
+                as: 'recieptObj',
             },
         },
     ])

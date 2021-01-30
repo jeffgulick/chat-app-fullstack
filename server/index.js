@@ -25,10 +25,6 @@ app.use('/api/users', require('./routes/userRouter'));
 app.use('/api/messages', require('./routes/messagesRouter'));
 // app.use('/api/conversation', require('./routes/conversationRouter'));
 
-//use this to show the image you have in node js server to client (react js)
-//https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
-app.use('/uploads', express.static('uploads'));
-
 io.on("connection", socket => {
 
   socket.on("Input Chat Message", msg => {
@@ -55,8 +51,24 @@ io.on("connection", socket => {
    })
 
 })
+//use this to show the image you have in node js server to client (react js)
+//https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
+app.use('/uploads', express.static('uploads'));
 
-const port = process.env.PORT || 5000
+// Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+
+  // Set static folder   
+  // All the javascript and css files will be read and served from this folder
+  app.use(express.static("client/build"));
+
+  // index.html for all page routes    html or routing and naviagtion
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
+  });
+}
+
+const port = process.env.PORT || 3001
 
 app.listen(port, () => {
   console.log(`Server Listening on ${port}`)
