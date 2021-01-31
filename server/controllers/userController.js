@@ -4,12 +4,8 @@ const { User } = require('../data/models/userSchema');
 const authUser = (req, res) => {
     res.status(200).json({
         _id: req.user._id,
-        isAdmin: req.user.role === 0 ? false : true,
         isAuth: true,
-        email: req.user.email,
-        name: req.user.name,
-        lastname: req.user.lastname,
-        role: req.user.role,
+        username: req.user.username,
         image: req.user.image,
     });
 };
@@ -25,11 +21,11 @@ const registerUser = (req, res) => {
 }
 
 const logInUser = (req, res) => {
-    User.findOne({ email: req.body.email }, (err, user) => {
+    User.findOne({ username: req.body.username }, (err, user) => {
         if (!user)
             return res.json({
                 loginSuccess: false,
-                message: "Auth failed, email not found"
+                message: "Auth failed, user not found"
             });
 
         user.comparePassword(req.body.password, (err, isMatch) => {

@@ -1,4 +1,6 @@
 const { Message } = require('../data/models/messageSchema');
+const { Conversation } = require('../data/models/conversationSchema');
+const mongoose = require('mongoose');
 
 const getMessage = async (req, res) => {
     await Message.find()
@@ -40,7 +42,7 @@ const getAllMessages = async (req, res) => {
 const postMessage = (req, res) => {
     const message = new Message(req.body);
 
-    // req.io.sockets.emit('messages', req.body.body);
+    req.io.sockets.emit('messages', req.body.body);
 
     message.save((err, doc) => {
         if (err) return res.json({ success: false, err });
@@ -50,18 +52,5 @@ const postMessage = (req, res) => {
     });
 }
 
-// const getConversationList = (req, res) => {
-//     let from = mongoose.Types.ObjectId(user._id);
-//     Conversation.aggregate([
-//         {
-//             $lookup: {
-//                 from: 'users',
-//                 localField: 'recipients',
-//                 foreignField: '_id',
-//                 as: 'recipientObj',
-//             },
-//         },
-//     ])
-// }
 
 module.exports = { getMessage, postMessage, getAllMessages }

@@ -6,4 +6,5 @@ const messageControl = require('../controllers/messageControl');
 router.get('/getMessages', messageControl.getMessage);
 router.post('/postmessage', messageControl.postMessage);
 router.get('/allmessages', messageControl.getAllMessages);
+// router.get('/conversations', messageControl.getConversations);
 module.exports = router;

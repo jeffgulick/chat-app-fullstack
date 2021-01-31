@@ -1,11 +1,15 @@
 import './App.css';
+import Navigation from './Components/Navigation';
+import Router from "./Router"
+import { BrowserRouter } from 'react-router-dom';
+
 
 function App() {
   return (
-    <div className="App">
-      Howdy
-    </div>
+    <BrowserRouter>
+      <Navigation />
+      <Router />
+  </BrowserRouter>
   );
 }
-
 export default App;
