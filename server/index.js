@@ -1,7 +1,16 @@
 const express = require("express");
+const http = require("http");
 const app = express();
-const server = require("http").createServer(app);
-const io = require("socket.io")(server);
+const server = http.createServer(app);
+const socket = require("socket.io");
+const io = socket(server);
+
+const port = process.env.PORT || 3001
+server.listen(port, () => {
+  console.log(`Server Listening on ${port}`)
+});
+
+
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
@@ -26,12 +35,13 @@ app.use('/api/messages', require('./routes/messagesRouter'));
 // app.use('/api/conversation', require('./routes/conversationRouter'));
 
 io.on("connection", socket => {
-
-  socket.on("Input Chat Message", msg => {
+  socket.emit("your id", socket.id)
+  socket.on("send message", body => {
+    io.emit("message", body)
 
     connect.then(db => {
       try {
-          let chat = new Message({ message: msg.chatMessage, sender:msg.userId, type: msg.type })
+          let chat = new Message({ message: body.chatMessage, sender:body.userId })
 
           chat.save((err, doc) => {
             console.log(doc)
@@ -68,8 +78,3 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const port = process.env.PORT || 3001
-
-app.listen(port, () => {
-  console.log(`Server Listening on ${port}`)
-});

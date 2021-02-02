@@ -61,8 +61,12 @@ export default function SignIn (props) {
       password: password
     })
     .then(function (response) {
-      document.cookie = "loggedIn=true;"
       console.log(response);
+      console.log(response.data.loginSuccess);
+      if(response.data.loginSuccess){
+        document.cookie = "loggedIn=true;"
+        props.signIn();
+      }
     })
     .catch(function (error) {
       console.log(error);

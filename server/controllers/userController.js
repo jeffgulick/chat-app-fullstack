@@ -11,8 +11,12 @@ const authUser = (req, res) => {
 };
 
 const registerUser = (req, res) => {
-    const user = new User(req.body);
-    user.save((err, doc) => {
+    const newUser = new User({
+        username: req.body.username,
+        password: req.body.password,
+      });
+      
+    newUser.save((err, doc) => {
         if (err) return res.json({ success: false, err });
         return res.status(200).json({
             success: true
