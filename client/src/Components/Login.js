@@ -54,8 +54,12 @@ export default function SignIn (props) {
   let history = useHistory();
 
   const handleSubmit = (event) => {
-    event.preventDefault()
+    let userInfo = {
+      username:'',
+      userId:''
+    }
 
+    event.preventDefault()
     axios.post('/api/users/login', {
       username: userName,
       password: password
@@ -66,20 +70,19 @@ export default function SignIn (props) {
       if(response.data.loginSuccess){
         document.cookie = "loggedIn=true;"
         props.signIn();
+        userInfo.username = response.data.username
+        userInfo.userId = response.data.userId
+        history.push('/chat')
       }
     })
     .catch(function (error) {
       console.log(error);
     });
 
-
-    // const temp = { userName }
-    // props.signIn();
-    // props.getUserName(temp);
-    history.push('/')
+    props.getUserName(userInfo);
+    console.log(props.getUserName)
     setUserName('');
     setPassword('')
-
   }
 
   return (

@@ -11,4 +11,20 @@ const loggedIn = (state = initState, action) => {
             return state
     }
 }
-export default combineReducers({ loggedIn })
+const getUserName = (state = {}, action) => {
+    switch(action.type){
+        case 'GET_USER':
+            return action.value;
+        default:
+            return state
+    }
+}
+const chats = (state={},action)=>{
+    switch(action.type){
+        case 'GET_CHATS':
+            return {...state, chats: action.value }
+        default:
+            return state;
+    }
+}
+export default combineReducers({ loggedIn, getUserName, chats })

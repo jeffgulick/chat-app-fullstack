@@ -1,14 +1,32 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router';
+import cookie from 'cookie'
 import Login from './Containers/Login';
-import Home from './Components/Home';
+import Chat from './Containers/Chat';
 import Register from './Components/Register';
+import Landing from './Components/Landing';
 
+const checkAuth = () => {
+    const cookies = cookie.parse(document.cookie)
+    return cookies["loggedIn"] ? true : false
+}
+
+const ProtectedRoute = ({component: Component, ...rest}) => {
+    return (
+        <Route
+        {...rest}
+        render={(props) => checkAuth()
+            ? <Component {...props} />
+            : <Redirect to="/login" />}
+        />
+    )
+}
 
 const Router = () => {
     return (
         <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Landing} />
+            <ProtectedRoute exact path="/Chat" component={Chat} />
             <Route path="/login" component={Login} />
             <Route path = "/register" component={Register}/>
         </Switch>

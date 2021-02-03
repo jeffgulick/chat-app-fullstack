@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import io from "socket.io-client";
+import SideBar from './SideBar';
 
 const Page = styled.div`
   display: flex;
@@ -90,8 +91,9 @@ const PartnerMessage = styled.div`
   border-top-left-radius: 10%;
   border-bottom-left-radius: 10%;
 `;
+/////////////////////////////////////////////////////
 
-const Home = () => {
+const Chat = () => {
   const [yourID, setYourID] = useState();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -108,12 +110,14 @@ const Home = () => {
     socketRef.current.on("message", (message) => {
       console.log("here");
       receivedMessage(message);
+      console.log(message)
     })
   },[]);
 
   const receivedMessage = (message) => {
       setMessages(item => [...item, message])
   }
+  console.log(messages)
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -123,6 +127,7 @@ const Home = () => {
     };
     setMessage("");
     socketRef.current.emit("send message", messageObject);
+    console.log(messageObject)
   }
   
   const handleChange = (e) => {
@@ -130,33 +135,36 @@ const Home = () => {
   }
   
   return (
-    <Page>
-      <Container>
-        {messages.map((message, index) => {
-          if (message.id === yourID) {
+    <div>
+      <SideBar />
+      <Page>
+        <Container>
+          {messages.map((message, index) => {
+            if (message.id === yourID) {
+              return (
+                <MyRow key={index}>
+                  <MyMessage>
+                    {message.body}
+                  </MyMessage>
+                </MyRow>
+              )
+            }
             return (
-              <MyRow key={index}>
-                <MyMessage>
+              <PartnerRow key={index}>
+                <PartnerMessage>
                   {message.body}
-                </MyMessage>
-              </MyRow>
+                </PartnerMessage>
+              </PartnerRow>
             )
-          }
-          return (
-            <PartnerRow key={index}>
-              <PartnerMessage>
-                {message.body}
-              </PartnerMessage>
-            </PartnerRow>
-          )
-        })}
-      </Container>
-      <Form onSubmit={sendMessage}>
-        <TextArea value={message} onChange={handleChange} placeholder="Say something..." />
-        <Button>Send</Button>
-      </Form>
-    </Page>
+          })}
+        </Container>
+        <Form onSubmit={sendMessage}>
+          <TextArea value={message} onChange={handleChange} placeholder="Say something..." />
+          <Button>Send</Button>
+        </Form>
+      </Page>
+    </div>
   );
 };
 
-export default Home;
+export default Chat;
