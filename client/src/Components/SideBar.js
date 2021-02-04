@@ -1,87 +1,82 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import { Avatar, AppBar, Toolbar, IconButton, List, Typography, Divider } from '@material-ui/core';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-const drawerWidth = 240;
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-  },
-  tab: {
     flexGrow: 1,
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+  bar: {
+    backgroundColor: "#18191A",
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    backgroundColor: "#3CB371",
+  toolBar: {
+    paddingLeft: '8pt',
+    width: '100%',
   },
-  drawerPaper: {
-    width: drawerWidth,
+  chatList: {
+    backgroundColor: "#212121",
+    paddingLeft:'10pt',
+    height: "100%",
   },
-  drawerContainer: {
-    overflow: 'auto',
+  title: {
+    marginLeft: "10pt",
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
+  addIcon: {
+    fontSize: "20pt",
+    textAlign: "end",
+    color: "white",
   },
-  item: {
-    border: "1pt, solid"
+  inline: {
+    display: 'inline',
   },
 }));
 
 const SideBar = () => {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.root}>
-            <Drawer
-                className={classes.drawer}
-                variant="permanent"
-                classes={{
-                paper: classes.drawerPaper,
-                }}
-            >
-                {/* <CssBaseline /> */}
-                <Typography variant="h5" className={classes.title}>ChatTime</Typography>
-                <Divider />
-                <div className={classes.drawerContainer}>
-                    <List>
-                        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem className={classes.item} button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                        
-                        ))}
-                    </List>
-                    <Divider />
-                    <List>
-                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                        ))}
-                    </List>
-                </div>
-            </Drawer>
-          </div>
-    );
+  const classes = useStyles();
+  return (
+    <div style={{width:"350px"}}>
+      <AppBar className={classes.bar} position="static">
+        <Toolbar className={classes.toolBar}>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="user">
+            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          </IconButton>
+          <h4 className={classes.title}>Chats</h4>
+          <IconButton edge='end' style={{marginLeft:'45pt', paddingRight:'5pt', paddingLeft:'20pt'}}>
+            <AddBoxIcon className={classes.addIcon} />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <div className={classes.chatList}>
+        <List style={{color:'white'}}>
+          <ListItem alignItems="flex-start" style={{color:'white'}}>
+            <ListItemAvatar>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            </ListItemAvatar>
+            <ListItemText
+              primary="Ali Conners"
+              secondary={
+                <React.Fragment>
+                  <Typography 
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="Primary"
+                  >
+                    Brunch this weekend?
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <Divider variant="inset" component="li"  />
+        </List>
+      </div>
+    </div>
+  )
 }
  
 export default SideBar;

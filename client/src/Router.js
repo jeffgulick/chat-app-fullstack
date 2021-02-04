@@ -2,9 +2,9 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router';
 import cookie from 'cookie'
 import Login from './Containers/Login';
-import Chat from './Containers/Chat';
 import Register from './Components/Register';
 import Landing from './Components/Landing';
+import MessageView from './Components/MessageView';
 
 const checkAuth = () => {
     const cookies = cookie.parse(document.cookie)
@@ -26,7 +26,7 @@ const Router = () => {
     return (
         <Switch>
             <Route exact path="/" component={Landing} />
-            <ProtectedRoute exact path="/Chat" component={Chat} />
+            <Route exact path="/message" component={MessageView} />
             <Route path="/login" component={Login} />
             <Route path = "/register" component={Register}/>
         </Switch>

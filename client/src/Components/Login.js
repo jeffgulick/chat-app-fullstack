@@ -72,7 +72,7 @@ export default function SignIn (props) {
         props.signIn();
         userInfo.username = response.data.username
         userInfo.userId = response.data.userId
-        history.push('/chat')
+        history.push('/message')
       }
     })
     .catch(function (error) {

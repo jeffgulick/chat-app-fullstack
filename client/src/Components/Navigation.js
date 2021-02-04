@@ -54,7 +54,7 @@ const Navigation = (props) => {
                 {logIn ?
                   <div>
                     <Button color="inherit"><Link className={classes.link} to="/">Home</Link></Button>
-                    <Button color="inherit"><Link className={classes.link} to="/chat">Chat</Link></Button>
+                    <Button color="inherit"><Link className={classes.link} to="/message">Chat</Link></Button>
                     <Button onClick={logOut} color="inherit"><Link className={classes.link} to="/">LOG OUT</Link></Button>
                   </div>
                   :
