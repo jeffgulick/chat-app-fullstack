@@ -14,19 +14,23 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#18191A",
   },
   toolBar: {
-    paddingLeft: '8pt',
+    paddingLeft: '15pt',
     width: '100%',
   },
-  chatList: {
-    backgroundColor: "#212121",
-    paddingLeft:'10pt',
+  chatListContainer: {
+    backgroundColor: "#18191A",
+    paddingLeft:'5pt',
     height: "100%",
   },
+  chatList: {
+    marginLeft:'15pt',
+    paddingLeft:'10pt',
+  },
   title: {
-    marginLeft: "10pt",
+    marginLeft: "17pt",
   },
   addIcon: {
-    fontSize: "20pt",
+    fontSize: "25pt",
     textAlign: "end",
     color: "white",
   },
@@ -38,20 +42,41 @@ const useStyles = makeStyles((theme) => ({
 const SideBar = () => {
   const classes = useStyles();
   return (
-    <div style={{width:"350px"}}>
+    <div style={{width:"600px", height:'500px'}}>
       <AppBar className={classes.bar} position="static">
         <Toolbar className={classes.toolBar}>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="user">
             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
           </IconButton>
           <h4 className={classes.title}>Chats</h4>
-          <IconButton edge='end' style={{marginLeft:'45pt', paddingRight:'5pt', paddingLeft:'20pt'}}>
+          <IconButton edge='end' style={{marginLeft:'125pt', paddingRight:'5pt', paddingLeft:'20pt'}}>
             <AddBoxIcon className={classes.addIcon} />
           </IconButton>
         </Toolbar>
       </AppBar>
-      <div className={classes.chatList}>
-        <List style={{color:'white'}}>
+      <div className={classes.chatListContainer}>
+        <List className={classes.chatList}>
+          <ListItem alignItems="flex-start" style={{color:'white', paddingRight:'0'}}>
+            <ListItemAvatar>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            </ListItemAvatar>
+            <ListItemText
+              primary="Ali Conners"
+              secondary={
+                <React.Fragment>
+                  <Typography 
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="Primary"
+                  >
+                    Brunch this weekend? Let me know. what do you know what do you know
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <Divider variant="inset" component="li"  />
           <ListItem alignItems="flex-start" style={{color:'white'}}>
             <ListItemAvatar>
               <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
