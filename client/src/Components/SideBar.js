@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
   chatList: {
-    marginLeft:'15pt',
+    marginLeft:'5pt',
     paddingLeft:'10pt',
   },
   title: {
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 const SideBar = () => {
   const classes = useStyles();
   return (
-    <div style={{width:"600px", height:'500px'}}>
+    <div style={{width:"400px", height:'auto'}}>
       <AppBar className={classes.bar} position="static">
         <Toolbar className={classes.toolBar}>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="user">

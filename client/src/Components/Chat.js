@@ -39,11 +39,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#242526'
   },
   messageContent: {
-    flexGrow: 2,
+    flexGrow: 1,
     width:'100%',
     height:'89%',
-    border: '2pt solid',
-    marginBottom:0
+    marginBottom:0,
+    color:'white',
+    overflowY: 'auto'
   },
   input: {
     marginTop:0
@@ -65,7 +66,15 @@ const Chat = () => {
         </Toolbar>
       </AppBar>
       <div className={classes.messageContainer}>
-        <div className={classes.messageContent}></div>
+        <div className={classes.messageContent}>
+          <p>hello can you see me</p>
+          <p>hello can you see me</p>
+          <p>hello can you see me</p>
+          <p>hello can you see me</p>
+          <p>hello can you see me</p>
+          <p>hello can you see me</p>
+      
+        </div>
         <div className={classes.input}>
           <form style={{marginLeft:'15pt'}}>
             <InputArea />
