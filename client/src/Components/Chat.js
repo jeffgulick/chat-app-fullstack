@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import io from "socket.io-client";
+import socketIOClient from "socket.io-client";
 
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Avatar } from '@material-ui/core';
@@ -34,15 +34,20 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   messageContainer: {
-    width: '100%',
+    width: 'auto',
     height: '100%',
     backgroundColor: '#242526'
   },
   messageContent: {
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'flex-end',
+    alignItems:'flex-end',
     flexGrow: 1,
-    width:'100%',
+    width:'auto',
     height:'89%',
     marginBottom:0,
+    marginRight:'20pt',
     color:'white',
     overflowY: 'auto'
   },
@@ -57,6 +62,14 @@ const useStyles = makeStyles((theme) => ({
 const Chat = () => {
   const classes = useStyles();
 
+  useEffect(() => {
+    return () => {
+      const socket = socketIOClient('http://localhost:3001');
+      socket.on("Output Chat Message", (data) => console.log(data));  
+      
+    }
+  },[])
+
   return (
     <div className={classes.page}>
       <AppBar className={classes.bar} position="static">
@@ -67,12 +80,12 @@ const Chat = () => {
       </AppBar>
       <div className={classes.messageContainer}>
         <div className={classes.messageContent}>
-          <p>hello can you see me</p>
-          <p>hello can you see me</p>
-          <p>hello can you see me</p>
-          <p>hello can you see me</p>
-          <p>hello can you see me</p>
-          <p>hello can you see me</p>
+          <p>hello can you see me 1</p>
+          <p>hello can you see me 2</p>
+          <p>hello can you see me 3</p>
+          <p>hello can you see me 4</p>
+          <p>hello can you see me 5</p>
+          <p>hello can you see me 6</p>
       
         </div>
         <div className={classes.input}>

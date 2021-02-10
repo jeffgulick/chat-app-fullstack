@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
   chatList: {
     marginLeft:'5pt',
-    paddingLeft:'10pt',
+    paddingLeft:'5pt',
   },
   title: {
     marginLeft: "17pt",
   },
   addIcon: {
-    fontSize: "25pt",
+    fontSize: "20pt",
     textAlign: "end",
     color: "white",
   },
@@ -42,14 +42,14 @@ const useStyles = makeStyles((theme) => ({
 const SideBar = () => {
   const classes = useStyles();
   return (
-    <div style={{width:"400px", height:'auto'}}>
+    <div style={{width:"350px", height:'auto'}}>
       <AppBar className={classes.bar} position="static">
         <Toolbar className={classes.toolBar}>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="user">
             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
           </IconButton>
           <h4 className={classes.title}>Chats</h4>
-          <IconButton edge='end' style={{marginLeft:'125pt', paddingRight:'5pt', paddingLeft:'20pt'}}>
+          <IconButton edge='end' style={{marginLeft:'75pt', paddingRight:'5pt', paddingLeft:'20pt'}}>
             <AddBoxIcon className={classes.addIcon} />
           </IconButton>
         </Toolbar>
