@@ -9,10 +9,10 @@ const messageSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
        ref: 'User'
     },
-    recipient: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-    },
+    // recipient: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'User',
+    // },
     date: {
         type: String,
         default: Date.now,

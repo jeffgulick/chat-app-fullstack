@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import socketIOClient from "socket.io-client";
-
+// import socketIOClient from "socket.io-client";
+import useSocket from 'use-socket.io-client';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Avatar } from '@material-ui/core';
 
@@ -59,17 +59,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Chat = () => {
+const Chat = (props) => {
   const classes = useStyles();
+  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [socket] = useSocket('http://localhost:3001');
+  socket.connect();
+
+console.log(socket);
 
   useEffect(() => {
-    return () => {
-      const socket = socketIOClient('http://localhost:3001');
-      socket.on("Output Chat Message", (data) => console.log(data));  
-      
-    }
+    socket.on("Output Chat Message", (data) => console.log(data));  
+    props.getChats()
   },[])
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    let chatMessage = input
+    socket.emit('Chat Input Message', {
+      chatMessage
+    })
+    setMessages([...messages, chatMessage])
+    console.log(messages)
+    setInput('')
+
+    
+  }
   return (
     <div className={classes.page}>
       <AppBar className={classes.bar} position="static">
@@ -80,17 +95,18 @@ const Chat = () => {
       </AppBar>
       <div className={classes.messageContainer}>
         <div className={classes.messageContent}>
-          <p>hello can you see me 1</p>
-          <p>hello can you see me 2</p>
-          <p>hello can you see me 3</p>
-          <p>hello can you see me 4</p>
-          <p>hello can you see me 5</p>
-          <p>hello can you see me 6</p>
-      
+          {messages.map((item, index)=>(
+            <p key={index}>{item}</p>
+          ))}      
         </div>
         <div className={classes.input}>
-          <form style={{marginLeft:'15pt'}}>
-            <InputArea />
+          <form onSubmit={handleSubmit} style={{marginLeft:'15pt'}}>
+            <InputArea
+              type="text"
+              value={input}
+              onChange={(event)=> setInput(event.target.value)}
+              onSubmit={handleSubmit}
+              />
           </form>
         </div>
       </div>

@@ -18,7 +18,7 @@ export const getUserName = (user) => {
     }
 }
 export function getChats(){
-    const request = axios.get(`${CHAT_SERVER}/getChats`)
+    const request = axios.get(`${CHAT_SERVER}/getMessages`)
         .then(response => response.data);
     
     return {

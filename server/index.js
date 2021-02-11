@@ -29,7 +29,7 @@ io.on("connection", socket => {
 
     connect.then(db => {
       try {
-          let chat = new Message({ message: msg.chatMessage, sender:msg.userId, recipient: msg.userId })
+          let chat = new Message({ message: msg.chatMessage, sender:msg.userId })
 
           chat.save((err, doc) => {
             console.log(doc)
@@ -39,7 +39,11 @@ io.on("connection", socket => {
             .populate("sender")
             .exec((err, doc)=> {
 
-                return io.emit("Output Chat Message", doc);
+                return (
+                  io.emit("Output Chat Message", doc =>{
+                    console.log(doc)
+                  })
+                ) 
             })
           })
       } catch (error) {
