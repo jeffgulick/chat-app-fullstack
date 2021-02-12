@@ -22,17 +22,14 @@ app.use('/api/users', require('./routes/userRouter'));
 app.use('/api/messages', require('./routes/messagesRouter'));
 
 io.on("connection", socket => {
-  console.log(socket.id)
-  console.log('socket is connected to backend')
   socket.on("Input Chat Message", msg => {
-    console.log('hello')
 
     connect.then(db => {
       try {
           let chat = new Message({ message: msg.chatMessage, sender:msg.userId })
 
           chat.save((err, doc) => {
-            console.log(doc)
+            console.log('*****************',chat)
             if(err) return res.json({ success: false, err })
 
             Message.find({ "_id": doc._id })
@@ -40,9 +37,7 @@ io.on("connection", socket => {
             .exec((err, doc)=> {
 
                 return (
-                  io.emit("Output Chat Message", doc =>{
-                    console.log(doc)
-                  })
+                  io.emit("Output Chat Message", doc)
                 ) 
             })
           })

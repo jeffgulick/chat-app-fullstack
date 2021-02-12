@@ -42,8 +42,6 @@ const getAllMessages = async (req, res) => {
 const postMessage = (req, res) => {
     const message = new Message(req.body);
 
-    req.io.sockets.emit('messages', req.body.body);
-
     message.save((err, doc) => {
         if (err) return res.json({ success: false, err });
         return res.status(200).json({

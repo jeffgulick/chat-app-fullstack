@@ -62,21 +62,26 @@ const useStyles = makeStyles((theme) => ({
 const Chat = (props) => {
   const classes = useStyles();
   const [input, setInput] = useState('');
+  const [backMsg, setBackMsg] = useState([]);
   const [messages, setMessages] = useState([]);
   const [socket] = useSocket('http://localhost:3001');
   socket.connect();
 
 console.log(socket);
+let backEndMsg
 
   useEffect(() => {
-    socket.on("Output Chat Message", (data) => console.log(data));  
+    socket.on("Output Chat Message", (data) => {
+      backEndMsg = data
+      console.log('socket on',backEndMsg)
+    });  
     props.getChats()
   },[])
 
   const handleSubmit = (event) => {
     event.preventDefault()
     let chatMessage = input
-    socket.emit('Chat Input Message', {
+    socket.emit('Input Chat Message',  {
       chatMessage
     })
     setMessages([...messages, chatMessage])
