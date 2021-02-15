@@ -11,19 +11,26 @@ export const signOut = () => {
         type: 'SIGN_OUT'
     }
 }
-export const getUserName = (user) => {
+export const getUser = (user) => {
     return {
         type: 'GET_USER',
         value: user
     }
 }
 export function getChats(){
-    const request = axios.get(`${CHAT_SERVER}/getMessages`)
+    const request = axios.get('/api/messages/getChats')
         .then(response => response.data);
     
     return {
         type: 'GET_CHATS',
-        payload: request
+        value: request
+    }
+}
+export function afterPostMessage(data){
+
+    return {
+        type: 'AFTER_POST_MESSAGE',
+        value: data
     }
 }
 

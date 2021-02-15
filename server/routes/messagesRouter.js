@@ -3,7 +3,7 @@ const router = express.Router();
 const { auth } = require("../middleware/auth");
 const messageControl = require('../controllers/messageControl');
 
-router.get('/getMessages', messageControl.getMessage);
+router.get('/getChats', messageControl.getChats)
 router.post('/postmessage', messageControl.postMessage);
 router.get('/allmessages', messageControl.getAllMessages);
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-// import socketIOClient from "socket.io-client";
 import useSocket from 'use-socket.io-client';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Avatar } from '@material-ui/core';
@@ -62,33 +61,39 @@ const useStyles = makeStyles((theme) => ({
 const Chat = (props) => {
   const classes = useStyles();
   const [input, setInput] = useState('');
-  const [backMsg, setBackMsg] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [info, setInfo] = useState({})
   const [socket] = useSocket('http://localhost:3001');
   socket.connect();
 
-console.log(socket);
-let backEndMsg
+  let user = props.user;
 
+  let results;
   useEffect(() => {
-    socket.on("Output Chat Message", (data) => {
-      backEndMsg = data
-      console.log('socket on',backEndMsg)
-    });  
-    props.getChats()
+    socket.on("Output Chat Message",  (data) => {
+      results = data[0]
+      console.log('socket on', results)
+      setMessages(messages => [...messages, results])
+
+    });
+    return () => {
+      socket.removeListener("Output Chat Message")
+    }
   },[])
 
   const handleSubmit = (event) => {
     event.preventDefault()
     let chatMessage = input
-    socket.emit('Input Chat Message',  {
-      chatMessage
-    })
-    setMessages([...messages, chatMessage])
-    console.log(messages)
-    setInput('')
+    let senderId = props.user.userId
+    let username = props.user.username;
 
-    
+    socket.emit('Input Chat Message',  {
+      chatMessage,
+      senderId,
+      username
+    })
+    console.log(messages.message)
+    setInput('')  
   }
   return (
     <div className={classes.page}>
@@ -101,7 +106,7 @@ let backEndMsg
       <div className={classes.messageContainer}>
         <div className={classes.messageContent}>
           {messages.map((item, index)=>(
-            <p key={index}>{item}</p>
+            <p key={index}>{item.message}</p>
           ))}      
         </div>
         <div className={classes.input}>

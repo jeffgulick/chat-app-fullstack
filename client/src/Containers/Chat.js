@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import Chat from '../Components/Chat';
-import { getChats } from "../Redux/actions";
+import { getChats, afterPostMessage } from "../Redux/actions";
 
 
 const mapStateToProps = state => {
@@ -13,6 +13,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getChats: ()=> dispatch(getChats()),
+        // afterPostMessage: (data) => dispatch(afterPostMessage(data))
     }
 }
   

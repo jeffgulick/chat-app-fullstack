@@ -11,7 +11,7 @@ const loggedIn = (state = initState, action) => {
             return state
     }
 }
-const getUserName = (state = {}, action) => {
+const user = (state = initState.user, action) => {
     switch(action.type){
         case 'GET_USER':
             return action.value;
@@ -23,8 +23,10 @@ const chats = (state={},action)=>{
     switch(action.type){
         case 'GET_CHATS':
             return {...state, chats: action.value }
+        case 'AFTER_POST_MESSAGE':
+            return {...state, chats: state.chats.concat(action.value) }
         default:
             return state;
     }
 }
-export default combineReducers({ loggedIn, getUserName, chats })
+export default combineReducers({ loggedIn, user, chats })

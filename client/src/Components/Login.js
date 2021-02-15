@@ -79,8 +79,8 @@ export default function SignIn (props) {
       console.log(error);
     });
 
-    props.getUserName(userInfo);
-    console.log(props.getUserName)
+    props.getUser(userInfo);
+    console.log(props.getUser)
     setUserName('');
     setPassword('')
   }

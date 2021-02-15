@@ -2,7 +2,7 @@ const { Message } = require('../data/models/messageSchema');
 const { Conversation } = require('../data/models/conversationSchema');
 const mongoose = require('mongoose');
 
-const getMessage = async (req, res) => {
+const getChats = async (req, res) => {
     await Message.find()
         .populate("sender")
         .exec((err, chats) => {
@@ -51,4 +51,4 @@ const postMessage = (req, res) => {
 }
 
 
-module.exports = { getMessage, postMessage, getAllMessages }
+module.exports = { getChats, postMessage, getAllMessages }
