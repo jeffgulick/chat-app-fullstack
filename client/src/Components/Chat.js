@@ -3,6 +3,8 @@ import styled from "styled-components";
 import useSocket from 'use-socket.io-client';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Avatar } from '@material-ui/core';
+import { Toast } from 'react-bootstrap';
+
 
 const InputArea = styled.input`
   width: 70%;
@@ -16,6 +18,30 @@ const InputArea = styled.input`
   letter-spacing: 1px;
   line-height: 20px;  
 `;
+const BubbleMe = styled.div`
+  display: flex;
+  align-items: flex-end;
+  width: 100pt;
+  height: 30pt;
+  border-radius: 30pt;
+  border: 1pt solid lightgray;
+  font-size: 15pt;
+  text-align: center;
+  align-self: flex-end;
+  margin: 10pt;
+  color: black;
+  background-color: blue;
+`;
+const BubbleYou = styled.div`
+  width: 40pt;
+  height: 30pt;
+  border-radius: 30pt;
+  border: 1pt solid lightgray;
+  font-size: 15pt;
+  color: black;
+  background-color: purple;
+`;
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection:'column',
     justifyContent:'flex-end',
     alignItems:'flex-end',
-    flexGrow: 1,
     width:'auto',
     height:'89%',
     marginBottom:0,
@@ -62,7 +87,6 @@ const Chat = (props) => {
   const classes = useStyles();
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
-  const [info, setInfo] = useState({})
   const [socket] = useSocket('http://localhost:3001');
   socket.connect();
 
@@ -76,6 +100,7 @@ const Chat = (props) => {
       setMessages(messages => [...messages, results])
 
     });
+    console.log(user)
     return () => {
       socket.removeListener("Output Chat Message")
     }
@@ -106,7 +131,16 @@ const Chat = (props) => {
       <div className={classes.messageContainer}>
         <div className={classes.messageContent}>
           {messages.map((item, index)=>(
-            <p key={index}>{item.message}</p>
+            <div key={index}>
+              {item.username == user.username ? 
+                <Toast>
+                  <Toast.Header closeButton={false}>
+                    <strong>Bootstrap</strong>
+                    <small>11 mins ago</small>
+                  </Toast.Header>
+                  <Toast.Body>{item.message}</Toast.Body>
+                </Toast> : <BubbleYou>{item.message}</BubbleYou> }
+            </div>
           ))}      
         </div>
         <div className={classes.input}>
