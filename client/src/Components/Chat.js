@@ -3,7 +3,6 @@ import styled from "styled-components";
 import useSocket from 'use-socket.io-client';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Avatar } from '@material-ui/core';
-import { Toast } from 'react-bootstrap';
 
 
 const InputArea = styled.input`
@@ -18,30 +17,47 @@ const InputArea = styled.input`
   letter-spacing: 1px;
   line-height: 20px;  
 `;
-const BubbleMe = styled.div`
-  display: flex;
+const BubbleMe = styled.p`
+  display: inline-block;
+  position: relative;
   align-items: flex-end;
-  width: 100pt;
-  height: 30pt;
-  border-radius: 30pt;
-  border: 1pt solid lightgray;
-  font-size: 15pt;
   text-align: center;
-  align-self: flex-end;
+  font-size: 12pt;
+  max-width: 85vh;
+  height: auto;
+  padding-left: 15pt;
+  padding-right: 15pt;
+  padding-top: 5pt;
+  padding-bottom: 5pt;
   margin: 10pt;
-  color: black;
-  background-color: blue;
-`;
-const BubbleYou = styled.div`
-  width: 40pt;
-  height: 30pt;
-  border-radius: 30pt;
-  border: 1pt solid lightgray;
-  font-size: 15pt;
-  color: black;
-  background-color: purple;
+  border: 2pt solid #2D88FF;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  color: #242526;
+  background-color: #2D88FF;
+  align-self: flex-end;
 `;
 
+const BubbleYou = styled.p`
+  display: inline-block;
+  position: relative;
+  align-items: flex-start;
+  text-align: center;
+  font-size: 12pt;
+  max-width: 85vh;
+  padding-left: 15pt;
+  padding-right: 15pt;
+  padding-top: 5pt;
+  padding-bottom: 5pt;
+  margin: 10pt;
+  border: 2pt solid #3A3B3C;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  color: white;
+  background-color: #3A3B3C;
+`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,11 +83,11 @@ const useStyles = makeStyles((theme) => ({
     display:'flex',
     flexDirection:'column',
     justifyContent:'flex-end',
-    alignItems:'flex-end',
     width:'auto',
     height:'89%',
     marginBottom:0,
-    marginRight:'20pt',
+    marginRight:'15pt',
+    marginLeft:'15pt',
     color:'white',
     overflowY: 'auto'
   },
@@ -131,15 +147,9 @@ const Chat = (props) => {
       <div className={classes.messageContainer}>
         <div className={classes.messageContent}>
           {messages.map((item, index)=>(
-            <div key={index}>
+            <div className={`${item.username == user.username ? 'align-self-end' : 'align-self-start'}`} key={index}>
               {item.username == user.username ? 
-                <Toast>
-                  <Toast.Header closeButton={false}>
-                    <strong>Bootstrap</strong>
-                    <small>11 mins ago</small>
-                  </Toast.Header>
-                  <Toast.Body>{item.message}</Toast.Body>
-                </Toast> : <BubbleYou>{item.message}</BubbleYou> }
+                <BubbleMe>{item.message}</BubbleMe> : <BubbleYou>{item.message}</BubbleYou> }
             </div>
           ))}      
         </div>
