@@ -1,4 +1,3 @@
-import { CHAT_SERVER } from '../Components/Config';
 import axios from 'axios';
 
 export const signIn = () => {
@@ -26,11 +25,3 @@ export function getChats(){
         value: request
     }
 }
-export function afterPostMessage(data){
-
-    return {
-        type: 'AFTER_POST_MESSAGE',
-        value: data
-    }
-}
-

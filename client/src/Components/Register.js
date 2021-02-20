@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import { Card, CardContent, CardActions, Typography, TextField, Button } from '@material-ui/core';
+import { Card, CardContent, Typography, TextField, Button } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -76,7 +76,7 @@ export default function Register () {
   return (
     <div className={classes.container}>
       <Card elevation={8} className={classes.root}>
-        <Typography variant="h4" className={classes.typo}>Sign Up</Typography>
+        <Typography variant="h4" className={classes.typo}>Register</Typography>
           <CardContent className={classes.content}>
           <form onSubmit={handleSubmit} >
               <TextField className={classes.TextField} id="outlined-basic" label="Username *" size="small"

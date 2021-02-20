@@ -4,9 +4,8 @@ import useSocket from 'use-socket.io-client';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Avatar } from '@material-ui/core';
 
-
 const InputArea = styled.input`
-  width: 70%;
+  width: 80%;
   height: 45px;
   border-radius: 30px;
   padding-left: 10px;
@@ -149,7 +148,11 @@ const Chat = (props) => {
           {messages.map((item, index)=>(
             <div className={`${item.username == user.username ? 'align-self-end' : 'align-self-start'}`} key={index}>
               {item.username == user.username ? 
-                <BubbleMe>{item.message}</BubbleMe> : <BubbleYou>{item.message}</BubbleYou> }
+                <BubbleMe>{item.message}</BubbleMe> : 
+                <div>
+                  <p style={{marginLeft:'12pt', marginBottom:'0'}}>contact username</p>
+                  <BubbleYou>{item.message}</BubbleYou>
+                </div> }
             </div>
           ))}      
         </div>

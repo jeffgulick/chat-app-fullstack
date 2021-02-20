@@ -6,6 +6,15 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -40,7 +49,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SideBar = () => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const classes = useStyles();
+
   return (
     <div style={{width:"350px", height:'auto'}}>
       <AppBar className={classes.bar} position="static">
@@ -49,7 +68,7 @@ const SideBar = () => {
             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
           </IconButton>
           <h4 className={classes.title}>Chats</h4>
-          <IconButton edge='end' style={{marginLeft:'75pt', paddingRight:'5pt', paddingLeft:'20pt'}}>
+          <IconButton onClick={handleClickOpen} edge='end' style={{marginLeft:'75pt', paddingRight:'5pt', paddingLeft:'20pt'}}>
             <AddBoxIcon className={classes.addIcon} />
           </IconButton>
         </Toolbar>
@@ -100,8 +119,34 @@ const SideBar = () => {
           <Divider variant="inset" component="li"  />
         </List>
       </div>
+
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here. We will send updates
+            occasionally.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Subscribe
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
  
-export default SideBar;
+export default SideBar

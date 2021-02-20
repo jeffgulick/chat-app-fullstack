@@ -23,8 +23,6 @@ const chats = (state={},action)=>{
     switch(action.type){
         case 'GET_CHATS':
             return {...state, chats: action.value }
-        case 'AFTER_POST_MESSAGE':
-            return {...state, chats: state.chats.concat(action.value) }
         default:
             return state;
     }

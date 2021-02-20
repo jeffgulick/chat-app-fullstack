@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, CardActions, Typography, TextField, Button } from '@material-ui/core';
+import { Card, CardContent, Typography, TextField, Button } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
