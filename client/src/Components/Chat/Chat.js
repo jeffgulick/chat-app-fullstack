@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import MsgBar from '../../Containers/MsgBar';
 import styled from "styled-components";
 import useSocket from 'use-socket.io-client';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Avatar } from '@material-ui/core';
 
 const InputArea = styled.input`
   width: 80%;
@@ -61,9 +61,6 @@ const BubbleYou = styled.p`
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-  },
-  bar: {
-    backgroundColor: "#242526",
   },
   page: {
     margin:0,
@@ -137,12 +134,7 @@ const Chat = (props) => {
   }
   return (
     <div className={classes.page}>
-      <AppBar className={classes.bar} position="static">
-        <Toolbar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-          <h5 style={{marginLeft:'15pt'}}>Names in chat</h5> 
-        </Toolbar>
-      </AppBar>
+      <MsgBar />
       <div className={classes.messageContainer}>
         <div className={classes.messageContent}>
           {messages.map((item, index)=>(
@@ -170,5 +162,4 @@ const Chat = (props) => {
     </div>
   );
 };
-
 export default Chat;

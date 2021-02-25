@@ -59,4 +59,27 @@ const logOutUser = (req, res) => {
     });
 }
 
-module.exports = { authUser, registerUser, logInUser, logOutUser }
+const getUsers = async (req, res) => {
+    await User.find()
+        .exec((err, users) => {
+            console.log(users)
+            if(err) return res.status(400).send(err);
+            res.status(200).send(users)
+        })
+}
+
+const getOneUser = async (req, res) => {
+    await User.findOne({ username: req.body.username }, (err, user) => {
+        if(err) return res.status(400).send(err);
+        if (!user)
+            return res.json({
+                Success: false,
+                message: "User not found"
+            });
+
+        let userInfo = {username: user.username, id: user._id}
+        return res.status(200).send(userInfo)
+    })
+}
+
+module.exports = { authUser, registerUser, logInUser, logOutUser, getUsers, getOneUser }

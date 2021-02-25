@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Contacts from '../../Containers/Contacts';
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, AppBar, Toolbar, IconButton, List, Typography, Divider } from '@material-ui/core';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -46,10 +45,13 @@ const useStyles = makeStyles((theme) => ({
   inline: {
     display: 'inline',
   },
+  dialog: {
+    fontWeight: 'bold',
+  },
 }));
 
 const SideBar = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -58,8 +60,8 @@ const SideBar = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const classes = useStyles();
 
+  const classes = useStyles();
   return (
     <div style={{width:"350px", height:'auto'}}>
       <AppBar className={classes.bar} position="static">
@@ -120,28 +122,19 @@ const SideBar = () => {
         </List>
       </div>
 
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+      <Dialog className={classes.dialog} BackdropProps open={open} disableBackdropClick onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Users</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
+          <DialogContentText className={classes.dialog}>
+            Who who you would like to chat with?
           </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-          />
+          <List>
+              <Contacts closeModal={handleClose}/>
+        </List>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,4 +1,4 @@
-import Chat from '../Containers/Chat';
+import Chat from '../../Containers/Chat';
 import SideBar from './SideBar';
 
 const MessageView = () => {

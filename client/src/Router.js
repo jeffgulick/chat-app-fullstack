@@ -4,7 +4,7 @@ import cookie from 'cookie'
 import Login from './Containers/Login';
 import Register from './Components/Register';
 import Landing from './Components/Landing';
-import MessageView from './Components/MessageView';
+import MessageView from './Components/Chat/MessageView';
 
 const checkAuth = () => {
     const cookies = cookie.parse(document.cookie)

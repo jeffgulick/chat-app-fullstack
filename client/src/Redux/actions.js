@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { response } from 'express';
 
 export const signIn = () => {
     return {
@@ -16,12 +17,9 @@ export const getUser = (user) => {
         value: user
     }
 }
-export function getChats(){
-    const request = axios.get('/api/messages/getChats')
-        .then(response => response.data);
-    
+export const getRecipient = (user) => {
     return {
-        type: 'GET_CHATS',
-        value: request
+        type: 'GET_RECIPIENT',
+        value: user
     }
 }

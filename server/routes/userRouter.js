@@ -4,8 +4,10 @@ const { auth } = require("../middleware/auth");
 const userControl = require('../controllers/userController');
 
 router.get('/auth', auth, userControl.authUser);
+router.get('/logout', auth, userControl.logOutUser);
+router.get('/contacts', userControl.getUsers);
+router.get('/oneUser', userControl.getOneUser);
+
 router.post('/register', userControl.registerUser);
 router.post('/login', userControl.logInUser);
-router.get('/logout', auth, userControl.logOutUser);
-
 module.exports = router;
