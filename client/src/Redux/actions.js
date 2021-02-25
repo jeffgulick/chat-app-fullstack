@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { response } from 'express';
 
 export const signIn = () => {
     return {
@@ -18,8 +17,16 @@ export const getUser = (user) => {
     }
 }
 export const getRecipient = (user) => {
-    return {
-        type: 'GET_RECIPIENT',
-        value: user
-    }
+    return (dispatch) => {
+        axios.post('/api/users/oneUser', {
+            username: user
+        })
+            .then(data => {
+                const action = {
+                    type: 'GET_RECIPIENT',
+                    value: data.data
+                }
+                dispatch(action)
+            })
+        }
 }

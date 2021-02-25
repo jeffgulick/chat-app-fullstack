@@ -121,12 +121,15 @@ const Chat = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
     let chatMessage = input
-    let senderId = props.user.userId
+    let senderId = props.user.userId;
+    let recipientId = props.recipient.id;
     let username = props.user.username;
+    let recipientName = props.recipient.username;
 
     socket.emit('Input Chat Message',  {
       chatMessage,
       senderId,
+      recipientId,
       username
     })
     console.log(messages.message)
@@ -142,7 +145,7 @@ const Chat = (props) => {
               {item.username == user.username ? 
                 <BubbleMe>{item.message}</BubbleMe> : 
                 <div>
-                  <p style={{marginLeft:'12pt', marginBottom:'0'}}>contact username</p>
+                  <p style={{marginLeft:'12pt', marginBottom:'0'}}>{props.recipient.username}</p>
                   <BubbleYou>{item.message}</BubbleYou>
                 </div> }
             </div>

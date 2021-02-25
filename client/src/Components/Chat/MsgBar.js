@@ -8,12 +8,13 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const MsgBar = (props) => {
+    let username = props.recipient.username
     const classes = useStyles();
     return (
         <AppBar className={classes.bar} position="static">
         <Toolbar>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-          <h5 style={{marginLeft:'15pt'}}>{props.recipient}</h5> 
+          <h5 style={{marginLeft:'15pt'}}>{username}</h5> 
         </Toolbar>
       </AppBar>
     );
