@@ -26,12 +26,12 @@ io.on("connection", socket => {
 
     connect.then(db => {
       try {
-          let chat = new Message({ 
-              message: msg.chatMessage, 
-              sender: msg.senderId,
-              recipient: msg.recipientId,
-              username: msg.username 
-            })
+          let chat = new Message ({ 
+                    message: msg.chatMessage, 
+                    sender: msg.senderId,
+                    recipient: msg.recipientId,
+                    username: msg.username 
+              })
 
           chat.save((err, doc) => {
             console.log('*****************',chat)

@@ -122,7 +122,7 @@ const Chat = (props) => {
     event.preventDefault()
     let chatMessage = input
     let senderId = props.user.userId;
-    let recipientId = props.recipient.id;
+    let recipientId = props.recipient._id;
     let username = props.user.username;
     let recipientName = props.recipient.username;
 

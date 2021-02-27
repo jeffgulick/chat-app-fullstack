@@ -14,9 +14,8 @@ const Contacts = (props) => {
           .then(data => {
             let usernames = data.data;
             usernames.forEach(element => {
-              setContacts(contacts => [...contacts, element.username])
+              setContacts(contacts => [...contacts, element])
             });
-            console.log(contacts)
           })
           .catch(error => {
             console.log(error);
@@ -24,9 +23,8 @@ const Contacts = (props) => {
         
       }, [])
 
-    const selectPerson = (name) => {
-        console.log(name);
-        props.getRecipient(name);
+    const selectPerson = (user) => {
+        props.getRecipient(user);
         props.closeModal();
     }
     
@@ -38,7 +36,7 @@ const Contacts = (props) => {
                         <ListItemAvatar>
                             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                         </ListItemAvatar>
-                        {name}
+                        {name.username}
                         <DialogActions>
                             <IconButton onClick={()=> selectPerson(name)} edge='end' style={{marginLeft:'75pt', paddingRight:'5pt', paddingLeft:'20pt'}}>
                                 <AddBoxIcon/>

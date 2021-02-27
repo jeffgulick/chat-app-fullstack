@@ -8,7 +8,6 @@ const messageSchema = mongoose.Schema({
     username: {
         type:String,
     },
-
     sender: {
         type: String,
         type: Schema.Types.ObjectId,
