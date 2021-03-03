@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import Contacts from '../../Containers/Contacts';
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, AppBar, Toolbar, IconButton, List, Typography, Divider } from '@material-ui/core';
+import { Avatar, AppBar, Toolbar, IconButton, List } from '@material-ui/core';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import SideBarList from '../../Containers/SideBarList';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -76,52 +74,8 @@ const SideBar = () => {
         </Toolbar>
       </AppBar>
       <div className={classes.chatListContainer}>
-        <List className={classes.chatList}>
-          <ListItem alignItems="flex-start" style={{color:'white', paddingRight:'0'}}>
-            <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Ali Conners"
-              secondary={
-                <React.Fragment>
-                  <Typography 
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="Primary"
-                  >
-                    Brunch this weekend? Let me know. what do you know what do you know
-                  </Typography>
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li"  />
-          <ListItem alignItems="flex-start" style={{color:'white'}}>
-            <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Ali Conners"
-              secondary={
-                <React.Fragment>
-                  <Typography 
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="Primary"
-                  >
-                    Brunch this weekend?
-                  </Typography>
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li"  />
-        </List>
+        <SideBarList />
       </div>
-
       <Dialog className={classes.dialog} BackdropProps open={open} disableBackdropClick onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Users</DialogTitle>
         <DialogContent>

@@ -22,6 +22,7 @@ app.use('/api/users', require('./routes/userRouter'));
 app.use('/api/messages', require('./routes/messagesRouter'));
 
 io.on("connection", socket => {
+
   socket.on("Input Chat Message", msg => {
 
     connect.then(db => {
@@ -30,11 +31,10 @@ io.on("connection", socket => {
                     message: msg.chatMessage, 
                     sender: msg.senderId,
                     recipient: msg.recipientId,
-                    username: msg.username 
+                    username: msg.username,
               })
 
           chat.save((err, doc) => {
-            console.log('*****************',chat)
             if(err) return res.json({ success: false, err })
 
             Message.find({ "_id": doc._id })

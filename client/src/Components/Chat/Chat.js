@@ -124,13 +124,12 @@ const Chat = (props) => {
     let senderId = props.user.userId;
     let recipientId = props.recipient._id;
     let username = props.user.username;
-    let recipientName = props.recipient.username;
 
     socket.emit('Input Chat Message',  {
       chatMessage,
       senderId,
       recipientId,
-      username
+      username,
     })
     console.log(messages.message)
     setInput('')  
