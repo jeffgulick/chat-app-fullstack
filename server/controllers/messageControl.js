@@ -1,43 +1,5 @@
 const { Message } = require('../data/models/messageSchema');
-const { Conversation } = require('../data/models/conversationSchema');
 const mongoose = require('mongoose');
-
-const getChats = async (req, res) => {
-    await Message.find()
-        .populate("sender")
-        .exec((err, chats) => {
-            console.log(chats)
-            if(err) return res.status(400).send(err);
-            res.status(200).send(chats)
-        })
-};
-
-const getAllMessages = async (req, res) => {
-    await Message.aggregate([
-        {
-            $lookup: {
-                from: 'users',
-                localField: 'sender',
-                foreignField: '_id',
-                as: 'senderObj',
-            },
-        },
-        {
-            $lookup: {
-                from: 'users',
-                localField: 'recipient',
-                foreignField: '_id',
-                as: 'recieptObj',
-            },
-        },
-    ])
-
-    .exec((err, chats) => {
-        console.log(chats)
-        if(err) return res.status(400).send(err);
-        res.status(200).send(chats)
-    }) 
-}
 
 const postMessage = (req, res) => {
     const message = new Message(req.body);
@@ -86,10 +48,39 @@ const conversationByOneUser = (req, res) => {
         if (err) {
             console.log(err);
             res.setHeader('Content-Type', 'application/json');
-            // res.end(JSON.stringify({ message: 'Failure' }));
+            res.end(JSON.stringify({ message: 'Failure' }));
             res.sendStatus(500);
         } else {
-            res.send(messages);
+            let temp = messages
+              //parsing data to work with later
+              let conversations = temp.map(item => {
+                let msgObj = {conversationName:'', message:'', sender:''}
+                if(item.userSent[0]._id == req.body.senderId){
+                  msgObj.conversationName = item.userRecieved[0].username;
+                  msgObj.message = item.message;
+                  msgObj.sender = item.userSent[0].username;
+                } 
+                else {
+                  msgObj.conversationName = item.userSent[0].username;
+                  msgObj.message = item.message;
+                  msgObj.sender = item.userSent[0].username;
+                }
+                return msgObj
+              })
+              //this groups messages by conversation. uses reducer()
+              const groupBy = (objectArray, property) => {
+                return objectArray.reduce((acc, obj) => {
+                  let key = obj[property]
+                  if (!acc[key]) {
+                    acc[key] = []
+                  }
+                  acc[key].push(obj)
+                  return acc
+                }, {})
+              }
+              // setRooms(groupBy(conversations, 'conversationName'))
+              groupedConversations = groupBy(conversations, 'conversationName')
+            res.send(groupedConversations);
         }
     });
 }
@@ -116,23 +107,16 @@ const converstationsByUsers = async (req, res) => {
             },
         },
     ])
-        // .match({
-        //     $or: [
-        //         { $and: [{ recipient: user1 }, { sender: user2 }] },
-        //         { $and: [{ recipient: user2 }, { sender: user1 }] },
-        //     ],
-        // })
         .match({
             $or: [
-                {sender: user1}, {recipient: user1}
-            ]
+                { $and: [{ recipient: user1 }, { sender: user2 }] },
+                { $and: [{ recipient: user2 }, { sender: user1 }] },
+            ],
         })
     
         .project({
-            'toObj.password': 0,
             'toObj.__v': 0,
             'toObj.date': 0,
-            'fromObj.password': 0,
             'fromObj.__v': 0,
             'fromObj.date': 0,
         })
@@ -148,5 +132,4 @@ const converstationsByUsers = async (req, res) => {
         });
 };
 
-
-module.exports = { getChats, postMessage, getAllMessages, converstationsByUsers, conversationByOneUser }
+module.exports = { postMessage, converstationsByUsers, conversationByOneUser }

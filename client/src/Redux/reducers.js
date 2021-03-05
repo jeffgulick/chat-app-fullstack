@@ -28,4 +28,14 @@ const recipient = (state = initState.recipient, action) => {
             return state
     }
 }
-export default combineReducers({ loggedIn, user, recipient })
+const conversations = (state={}, action) => {
+    switch(action.type){
+        case 'GET_CONVERSATIONS':
+            return action.value;
+        default:
+            return state
+    }
+    
+}
+
+export default combineReducers({ loggedIn, user, recipient, conversations })

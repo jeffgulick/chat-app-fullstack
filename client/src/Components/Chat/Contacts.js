@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Avatar, Divider, IconButton, DialogActions } from '@material-ui/core';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import { Avatar, Divider, IconButton, DialogActions, ListItem, ListItemAvatar } from '@material-ui/core';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 
 

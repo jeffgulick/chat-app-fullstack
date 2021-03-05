@@ -108,7 +108,6 @@ const Chat = (props) => {
   useEffect(() => {
     socket.on("Output Chat Message",  (data) => {
       results = data[0]
-      console.log('socket on', results)
       setMessages(messages => [...messages, results])
 
     });

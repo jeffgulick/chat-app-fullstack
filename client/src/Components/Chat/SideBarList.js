@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -18,54 +17,35 @@ const useStyles = makeStyles((theme) => ({
   
 const SideBarList = (props) => {
     const classes = useStyles();
-    let conversations = [];
-    let groupedConversations = {};
+    const [lastMessage, setLastMessage] = useState('');
 
     useEffect(() => {
-        axios.post('/api/messages/conversations', {senderId: props.user.userId})
-            .then(data => {
-              let temp = data.data
-               
-              //parsing data to work with
-              conversations = temp.map((item, index) => {
-                let msgObj = {conversationName:'', message:'', sender:''}
-                if(item.sender === props.user.userId){
-                  msgObj.conversationName = item.userRecieved[0].username;
-                  msgObj.message = item.message;
-                  msgObj.sender = item.userSent[0].username;
-                } 
-                else {
-                  msgObj.conversationName = item.userSent[0].username;
-                  msgObj.message = item.message;
-                  msgObj.sender = item.userSent[0].username;
-                }
-                return msgObj
-              })
+      props.getConversations(props.user.userId)
+      let object = props.conversations
 
-              //this groups messages by conversation. uses reducer()
-              const groupBy = (objectArray, property) => {
-                return objectArray.reduce((acc, obj) => {
-                  let key = obj[property]
-                  if (!acc[key]) {
-                    acc[key] = []
-                  }
-                  acc[key].push(obj)
-                  return acc
-                }, {})
-              }
-              groupedConversations = groupBy(conversations, 'conversationName')
-              console.log('grouped: ',groupedConversations)
-            })                      
+      console.log(object)
+      // for(let item in test){
+      //   for(let i=0;i < te; i++){
+      //     console.log(item[i])
+      //   }
+      // }
+  
     },[])
 
     return (
+
         <List className={classes.chatList}>
-          <ListItem alignItems="flex-start" style={{color:'white', paddingRight:'0'}}>
+          {
+            Object.keys(props.conversations).map((key, index) => {
+              return(<ListItem style={{color:'white'}}>{key}</ListItem>)
+            })
+          }
+          {/* <ListItem alignItems="flex-start" style={{color:'white', paddingRight:'0'}}>
             <ListItemAvatar>
               <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
             <ListItemText
-              primary="Ali Conners"
+              primary=""
               secondary={
                 <React.Fragment>
                   <Typography 
@@ -86,7 +66,7 @@ const SideBarList = (props) => {
               <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
             <ListItemText
-              primary="Ali Conners"
+              primary=""
               secondary={
                 <React.Fragment>
                   <Typography 
@@ -101,7 +81,7 @@ const SideBarList = (props) => {
               }
             />
           </ListItem>
-          <Divider variant="inset" component="li"  />
+          <Divider variant="inset" component="li"  /> */}
         </List>
     );
 }
