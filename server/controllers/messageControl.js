@@ -1,135 +1,139 @@
-const { Message } = require('../data/models/messageSchema');
-const mongoose = require('mongoose');
+const { Message } = require("../data/models/messageSchema");
+const mongoose = require("mongoose");
 
 const postMessage = (req, res) => {
-    const message = new Message(req.body);
+  const message = new Message(req.body);
 
-    message.save((err, doc) => {
-        if (err) return res.json({ success: false, err });
-        return res.status(200).json({
-            success: true
-        });
+  message.save((err, doc) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({
+      success: true,
     });
-}
+  });
+};
 
-const conversationByOneUser = (req, res) => {
-    let user = mongoose.Types.ObjectId(req.body.senderId);
+const conversationByOneUser = async (req, res) => {
+  let user = mongoose.Types.ObjectId(req.body.senderId);
 
-    Message.aggregate([
-        {
-            $lookup: {
-                from: 'users',
-                localField:'sender',
-                foreignField:'_id',
-                as: 'userSent',
-            },
-        },
-        {
-            $lookup: {
-                from:'users',
-                localField:'recipient',
-                foreignField:'_id',
-                as:'userRecieved'
-            }
-        }
-        
-    ])
+  await Message.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "sender",
+        foreignField: "_id",
+        as: "userSent",
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "recipient",
+        foreignField: "_id",
+        as: "userRecieved",
+      },
+    },
+  ])
     .match({
-        $or: [
-            {sender: user}, {recipient: user}
-        ]
+      $or: [{ sender: user }, { recipient: user }],
     })
     .project({
-        // 'userObj.password': 0,
-        'userObj.__v': 0,
-        'userObj.date': 0,
+      // 'userObj.password': 0,
+      "userObj.__v": 0,
+      "userObj.date": 0,
     })
     .exec((err, messages) => {
-        if (err) {
-            console.log(err);
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ message: 'Failure' }));
-            res.sendStatus(500);
-        } else {
-            let temp = messages
-              //parsing data to work with later
-              let conversations = temp.map(item => {
-                let msgObj = {conversationName:'', message:'', sender:''}
-                if(item.userSent[0]._id == req.body.senderId){
-                  msgObj.conversationName = item.userRecieved[0].username;
-                  msgObj.message = item.message;
-                  msgObj.sender = item.userSent[0].username;
-                } 
-                else {
-                  msgObj.conversationName = item.userSent[0].username;
-                  msgObj.message = item.message;
-                  msgObj.sender = item.userSent[0].username;
-                }
-                return msgObj
-              })
-              //this groups messages by conversation. uses reducer()
-              const groupBy = (objectArray, property) => {
-                return objectArray.reduce((acc, obj) => {
-                  let key = obj[property]
-                  if (!acc[key]) {
-                    acc[key] = []
-                  }
-                  acc[key].push(obj)
-                  return acc
-                }, {})
-              }
-              // setRooms(groupBy(conversations, 'conversationName'))
-              groupedConversations = groupBy(conversations, 'conversationName')
-            res.send(groupedConversations);
-        }
+      if (err) {
+        console.log(err);
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ message: "Failure" }));
+        res.sendStatus(500);
+      } else {
+        let temp = messages;
+        //parsing data to work with later
+        let conversations = temp.map((item) => {
+          let msgObj = { conversationName: "", message: "", sender: "" };
+          if (item.userSent[0]._id == req.body.senderId) {
+            msgObj.conversationName = item.userRecieved[0].username;
+            msgObj.message = item.message;
+            msgObj.sender = item.userSent[0].username;
+          } else {
+            msgObj.conversationName = item.userSent[0].username;
+            msgObj.message = item.message;
+            msgObj.sender = item.userSent[0].username;
+          }
+          return msgObj;
+        });
+        //this groups messages by conversation. uses reducer()
+        const groupBy = (objectArray, property) => {
+          return objectArray.reduce((acc, obj) => {
+            let key = obj[property];
+            if (!acc[key]) {
+              acc[key] = [];
+            }
+            acc[key].push(obj);
+            return acc;
+          }, {});
+        };
+        groupedConversations = groupBy(conversations, "conversationName");
+
+        let lastMessage = [];
+        const entries = Object.values(groupedConversations);
+        entries.forEach((item) => {
+          for (let i = 0; i < 1; i++) {
+            let temp = item[item.length - 1];
+            lastMessage = [...lastMessage, temp];
+          }
+        });
+        res.send(lastMessage);
+      }
     });
-}
+};
 
 // Get messages based on to & from
 const converstationsByUsers = async (req, res) => {
-    let user1 = mongoose.Types.ObjectId(req.body.senderId);
-    let user2 = mongoose.Types.ObjectId(req.body.recipientId);
-   await Message.aggregate([
-        {
-            $lookup: {
-                from: 'users',
-                localField: 'recipient',
-                foreignField: '_id',
-                as: 'toObj',
-            },
-        },
-        {
-            $lookup: {
-                from: 'users',
-                localField: 'sender',
-                foreignField: '_id',
-                as: 'fromObj',
-            },
-        },
-    ])
-        .match({
-            $or: [
-                { $and: [{ recipient: user1 }, { sender: user2 }] },
-                { $and: [{ recipient: user2 }, { sender: user1 }] },
-            ],
-        })
-    
-        .project({
-            'toObj.__v': 0,
-            'toObj.date': 0,
-            'fromObj.__v': 0,
-            'fromObj.date': 0,
-        })
-        .exec((err, messages) => {
-            if (err) {
-                console.log(err);
-                res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({ message: 'Failure' }));
-                res.sendStatus(500);
-            } else {
-                res.send(messages);
-            }
-        });
+  let user1 = mongoose.Types.ObjectId(req.body.senderId);
+  let user2 = mongoose.Types.ObjectId(req.body.recipientId);
+  await Message.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "recipient",
+        foreignField: "_id",
+        as: "toObj",
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "sender",
+        foreignField: "_id",
+        as: "fromObj",
+      },
+    },
+  ])
+    .match({
+      $or: [
+        { $and: [{ recipient: user1 }, { sender: user2 }] },
+        { $and: [{ recipient: user2 }, { sender: user1 }] },
+      ],
+    })
+
+    .project({
+      "toObj.__v": 0,
+      "toObj.date": 0,
+      "fromObj.__v": 0,
+      "fromObj.date": 0,
+    })
+    .exec((err, messages) => {
+      if (err) {
+        console.log(err);
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ message: "Failure" }));
+        res.sendStatus(500);
+      } else {
+        res.send(messages);
+      }
+    });
 };
 
-module.exports = { postMessage, converstationsByUsers, conversationByOneUser }
+module.exports = { postMessage, converstationsByUsers, conversationByOneUser };

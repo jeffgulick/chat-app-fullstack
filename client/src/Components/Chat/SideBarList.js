@@ -1,46 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, List, Typography, Divider } from '@material-ui/core';
+import React, { useState, useEffect } from "react";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import { makeStyles } from "@material-ui/core/styles";
+import { Avatar, List, Typography, Divider } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-    chatList: {
-      marginLeft:'5pt',
-      paddingLeft:'5pt',
-    },
-    inline: {
-      display: 'inline',
-    },
-  }));
-  
+  inline: {
+    display: "inline",
+  },
+}));
+
 const SideBarList = (props) => {
-    const classes = useStyles();
-    const [lastMessage, setLastMessage] = useState('');
+  const classes = useStyles();
 
-    useEffect(() => {
-      props.getConversations(props.user.userId)
-      let object = props.conversations
+  useEffect(() => {
+    props.getConversations(props.user.userId);
+  }, []);
 
-      console.log(object)
-      // for(let item in test){
-      //   for(let i=0;i < te; i++){
-      //     console.log(item[i])
-      //   }
-      // }
-  
-    },[])
-
-    return (
-
-        <List className={classes.chatList}>
-          {
-            Object.keys(props.conversations).map((key, index) => {
-              return(<ListItem style={{color:'white'}}>{key}</ListItem>)
-            })
-          }
-          {/* <ListItem alignItems="flex-start" style={{color:'white', paddingRight:'0'}}>
+  return (
+    <List className={classes.chatList}>
+      {props.conversations.map((item, index) => (
+        <div key={index}>
+          <ListItem
+            alignItems="flex-start"
+            style={{ color: "white", paddingRight: "0" }}
+          >
+            <ListItemAvatar>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            </ListItemAvatar>
+            <ListItemText
+              primary={item.conversationName}
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="Primary"
+                  >
+                    {item.message}
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+        </div>
+      ))}
+      {/* <ListItem alignItems="flex-start" style={{color:'white', paddingRight:'0'}}>
             <ListItemAvatar>
               <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
@@ -82,8 +90,8 @@ const SideBarList = (props) => {
             />
           </ListItem>
           <Divider variant="inset" component="li"  /> */}
-        </List>
-    );
-}
- 
+    </List>
+  );
+};
+
 export default SideBarList;

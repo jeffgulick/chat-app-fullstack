@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const { Message } = require("./data/models/messageSchema");
+const { Conversation } = require("./data/models/conversationSchema");
 const { auth } = require("./middleware/auth");
 
 const server = require("http").createServer(app);
@@ -28,10 +29,10 @@ io.on("connection", socket => {
     connect.then(db => {
       try {
           let chat = new Message ({ 
-                    message: msg.chatMessage, 
-                    sender: msg.senderId,
-                    recipient: msg.recipientId,
-                    username: msg.username,
+          message: msg.chatMessage, 
+          sender: msg.senderId,
+          recipient: msg.recipientId,
+          username: msg.username,
               })
 
           chat.save((err, doc) => {
@@ -46,6 +47,7 @@ io.on("connection", socket => {
                 ) 
             })
           })
+          
       } catch (error) {
         console.error(error);
       }
