@@ -12,84 +12,54 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SideBarList = (props) => {
+  const [loading, setLoading] = useState(true);
   const classes = useStyles();
-
+  let userId = props.user.userId;
+  
   useEffect(() => {
-    props.getConversations(props.user.userId);
-  }, []);
+    props.getConversations(userId);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  },[props, userId]);
 
   return (
     <List className={classes.chatList}>
-      {props.conversations.map((item, index) => (
-        <div key={index}>
-          <ListItem
-            alignItems="flex-start"
-            style={{ color: "white", paddingRight: "0" }}
-          >
-            <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary={item.conversationName}
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="Primary"
-                  >
-                    {item.message}
-                  </Typography>
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
+      {loading ? (
+        <div>Loading</div>
+      ) : (
+        <div>
+          {props.conversations.map((item, index) => (
+            <div key={index}>
+              <ListItem
+                alignItems="flex-start"
+                style={{ color: "white", paddingRight: "0" }}
+              >
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.conversationName}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        className={classes.inline}
+                        color="Primary"
+                      >
+                        {item.message}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </div>
+          ))}
         </div>
-      ))}
-      {/* <ListItem alignItems="flex-start" style={{color:'white', paddingRight:'0'}}>
-            <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary=""
-              secondary={
-                <React.Fragment>
-                  <Typography 
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="Primary"
-                  >
-                    Brunch this weekend? Let me know. what do you know what do you know
-                  </Typography>
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li"  />
-          <ListItem alignItems="flex-start" style={{color:'white'}}>
-            <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary=""
-              secondary={
-                <React.Fragment>
-                  <Typography 
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="Primary"
-                  >
-                    Brunch this weekend?
-                  </Typography>
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li"  /> */}
+      )}
     </List>
   );
 };

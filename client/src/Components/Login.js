@@ -66,7 +66,6 @@ export default function SignIn (props) {
     })
     .then(function (response) {
       console.log(response);
-      console.log(response.data.loginSuccess);
       if(response.data.loginSuccess){
         document.cookie = "loggedIn=true;"
         props.signIn();
@@ -80,7 +79,6 @@ export default function SignIn (props) {
     });
 
     props.getUser(userInfo);
-    console.log(props.getUser)
     setUserName('');
     setPassword('')
   }
@@ -103,14 +101,6 @@ export default function SignIn (props) {
               <Button type="submit" className={classes.button} variant="contained" color="primary">Submit</Button>
           </form>
           </CardContent>
-            {/* <CardActions className={classes.action}>
-              <Link to= "/register" >
-                <a href>Sign Up</a>
-              </Link>
-              <Link to= "/register" >
-                <a href>Something Else</a>
-              </Link>
-            </CardActions> */}
       </Card>
     </div>
   );

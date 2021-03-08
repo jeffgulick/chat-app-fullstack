@@ -12,7 +12,7 @@ const postMessage = (req, res) => {
   });
 };
 
-const conversationByOneUser = async (req, res) => {
+const conversationList = async (req, res) => {
   let user = mongoose.Types.ObjectId(req.body.senderId);
 
   await Message.aggregate([
@@ -47,7 +47,8 @@ const conversationByOneUser = async (req, res) => {
         res.setHeader("Content-Type", "application/json");
         res.end(JSON.stringify({ message: "Failure" }));
         res.sendStatus(500);
-      } else {
+      } 
+      else {
         let temp = messages;
         //parsing data to work with later
         let conversations = temp.map((item) => {
@@ -136,4 +137,4 @@ const converstationsByUsers = async (req, res) => {
     });
 };
 
-module.exports = { postMessage, converstationsByUsers, conversationByOneUser };
+module.exports = { postMessage, converstationsByUsers, conversationList };

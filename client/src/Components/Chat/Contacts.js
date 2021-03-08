@@ -18,7 +18,6 @@ const Contacts = (props) => {
           .catch(error => {
             console.log(error);
         })
-        
       }, [])
 
     const selectPerson = (user) => {
