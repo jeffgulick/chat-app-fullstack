@@ -31,6 +31,7 @@ io.on("connection", socket => {
           sender: msg.senderId,
           recipient: msg.recipientId,
           username: msg.username,
+          conversationId: msg.conversationId,
               })
 
           chat.save((err, doc) => {

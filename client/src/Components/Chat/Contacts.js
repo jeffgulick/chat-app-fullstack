@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import 'react-native-get-random-values'
+import { nanoid } from 'nanoid'
 import {
   Avatar,
   Divider,
@@ -28,7 +30,9 @@ const Contacts = (props) => {
   }, []);
 
   const selectPerson = (user) => {
+    let id = nanoid(10);
     props.getRecipient(user);
+    props.getConversationId(id)
     props.closeModal();
   };
 

@@ -21,7 +21,7 @@ const SideBarList = (props) => {
 
     setTimeout(() => {
       setLoading(false);
-    }, 750);
+    }, 1000);
   },[]);
 
   return (
