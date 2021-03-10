@@ -6,7 +6,7 @@ const mapStateToProps = state => {
     return {
         user: state.user,
         recipient: state.recipient,
-        conversations: state.conversations
+        lastConversations: state.lastConversations
     }
   }
 

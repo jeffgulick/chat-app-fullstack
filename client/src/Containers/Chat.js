@@ -5,7 +5,8 @@ import Chat from '../Components/Chat/Chat';
 const mapStateToProps = state => {
     return {
         user: state.user,
-        recipient: state.recipient
+        recipient: state.recipient,
+        conversationId: state.conversationId
     }
   }
   

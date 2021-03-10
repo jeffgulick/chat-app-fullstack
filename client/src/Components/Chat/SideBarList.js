@@ -21,8 +21,8 @@ const SideBarList = (props) => {
 
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
-  },[props, userId]);
+    }, 750);
+  },[]);
 
   return (
     <List className={classes.chatList}>
@@ -30,7 +30,7 @@ const SideBarList = (props) => {
         <div>Loading</div>
       ) : (
         <div>
-          {props.conversations.map((item, index) => (
+          {props.lastConversations.map((item, index) => (
             <div key={index}>
               <ListItem
                 alignItems="flex-start"
