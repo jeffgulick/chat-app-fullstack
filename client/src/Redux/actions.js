@@ -41,3 +41,16 @@ export const getConversations = (user) => {
       });
   };
 };
+export const getMessages = (info) => {
+  return (dispatch) => {
+    axios
+      .post("/api/messages/chats", info)
+      .then (data =>{
+        const action = {
+          type: "GET_MESSAGES",
+          value: data.data
+        }
+        dispatch(action);
+      })
+  }
+}

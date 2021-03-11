@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import MsgBar from "../../Containers/MsgBar";
 import styled from "styled-components";
 import useSocket from "use-socket.io-client";
@@ -122,14 +123,12 @@ const Chat = (props) => {
     let senderId = props.user.userId;
     let recipientId = props.recipient._id;
     let username = props.user.username;
-    let conversationId = props.conversationId;
 
     socket.emit("Input Chat Message", {
       chatMessage,
       senderId,
       recipientId,
       username,
-      conversationId
     });
     setInput("");
   };

@@ -44,6 +44,14 @@ const conversationId = (state = {}, action) => {
       return state;
   }
 };
+const messages = (state = {}, action) => {
+  switch (action.type) {
+    case "GET_MESSAGES" :
+      return action.value;
+    default:
+      return state
+  }
+}
 
 export default combineReducers({
   loggedIn,
@@ -51,4 +59,5 @@ export default combineReducers({
   recipient,
   lastConversations,
   conversationId,
+  messages
 });

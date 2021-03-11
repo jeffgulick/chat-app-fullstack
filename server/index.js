@@ -8,14 +8,23 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const config = require("./data/database");
 
+// const mongoose = require("mongoose");
+// const connect = mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log('MongoDB Connected...'))
+//   .catch(err => console.log(err));
+
 const mongoose = require("mongoose");
-const connect = mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+const connect = mongoose.connect(config.mongoURI,
+  {
+    useNewUrlParser: true, useUnifiedTopology: true,
+    useCreateIndex: true, useFindAndModify: false
+  })
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cookieParser());
+app.use(cookieParser()); 
 
 app.use('/api/users', require('./routes/userRouter'));
 app.use('/api/messages', require('./routes/messagesRouter'));
@@ -31,9 +40,7 @@ io.on("connection", socket => {
           sender: msg.senderId,
           recipient: msg.recipientId,
           username: msg.username,
-          conversationId: msg.conversationId,
               })
-
           chat.save((err, doc) => {
             if(err) return res.json({ success: false, err })
 

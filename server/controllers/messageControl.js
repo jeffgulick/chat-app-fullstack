@@ -37,9 +37,12 @@ const conversationList = async (req, res) => {
       $or: [{ sender: user }, { recipient: user }],
     })
     .project({
-      // 'userObj.password': 0,
-      "userObj.__v": 0,
-      "userObj.date": 0,
+      "userSent._v": 0,
+      "userRecieved._v": 0,
+      "userSent.date": 0,
+      "userRecieved.date": 0,
+      "userSent.password": 0,
+      "userRecieved.password":0,
     })
     .exec((err, messages) => {
       if (err) {
@@ -47,14 +50,13 @@ const conversationList = async (req, res) => {
         res.setHeader("Content-Type", "application/json");
         res.end(JSON.stringify({ message: "Failure" }));
         res.sendStatus(500);
-      } 
-      else {
-        let temp = messages;
+      } else {
         //parsing data to work with later
-        let conversations = temp.map((item) => {
+        let conversations = messages.map((item) => {
           let msgObj = { conversationName: "", message: "", sender: "" };
           if (item.userSent[0]._id == req.body.senderId) {
             msgObj.conversationName = item.userRecieved[0].username;
+
             msgObj.message = item.message;
             msgObj.sender = item.userSent[0].username;
           } else {
@@ -86,6 +88,71 @@ const conversationList = async (req, res) => {
           }
         });
         res.send(lastMessage);
+      }
+    });
+};
+
+const chatMessagesByConversation = async (req, res) => {
+  let user = mongoose.Types.ObjectId(req.body.senderId);
+  let user2 = req.body.conversationName;
+
+  await Message.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "sender",
+        foreignField: "_id",
+        as: "userSent",
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "recipient",
+        foreignField: "_id",
+        as: "userRecieved",
+      },
+    },
+  ])
+    .match({
+      $or: [{ sender: user }, { recipient: user }],
+    })
+    .project({
+      "userSent._v": 0,
+      "userRecieved._v": 0,
+      "userSent.date": 0,
+      "userRecieved.date": 0,
+      "userSent.password": 0,
+      "userRecieved.password":0,
+
+    })
+    .exec((err, messages) => {
+      if (err) {
+        console.log(err);
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ message: "Failure" }));
+        res.sendStatus(500);
+      } else {
+        let temp = messages;
+        //parsing data to work with later
+        let conversations = temp.map((item) => {
+          let msgObj = { conversationName: "", message: "", sender: "" };
+          if (item.userSent[0]._id == req.body.senderId) {
+            msgObj.conversationName = item.userRecieved[0].username;
+            msgObj.message = item.message;
+            msgObj.sender = item.userSent[0].username;
+          } else {
+            msgObj.conversationName = item.userSent[0].username;
+            msgObj.message = item.message;
+            msgObj.sender = item.userSent[0].username;
+          }
+          return msgObj;
+        });
+
+        let listOfMessages = conversations.filter(
+          (item) => item.conversationName == user2
+        );
+        res.send(listOfMessages);
       }
     });
 };
@@ -137,4 +204,9 @@ const converstationsByUsers = async (req, res) => {
     });
 };
 
-module.exports = { postMessage, converstationsByUsers, conversationList };
+module.exports = {
+  postMessage,
+  converstationsByUsers,
+  conversationList,
+  chatMessagesByConversation,
+};

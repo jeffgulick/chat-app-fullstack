@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -24,6 +25,14 @@ const SideBarList = (props) => {
     }, 1000);
   },[]);
 
+
+  const handleSelection = (info) => {
+    console.log('pussy')
+    // props.getMessages(info)
+    // console.log(props.messages)
+  }
+  
+
   return (
     <List className={classes.chatList}>
       {loading ? (
@@ -35,11 +44,13 @@ const SideBarList = (props) => {
               <ListItem
                 alignItems="flex-start"
                 style={{ color: "white", paddingRight: "0" }}
+                
               >
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                 </ListItemAvatar>
                 <ListItemText
+                  onClick={() => handleSelection({senderId: props.user.userId, conversationName:item.conversationName})}
                   primary={item.conversationName}
                   secondary={
                     <React.Fragment>

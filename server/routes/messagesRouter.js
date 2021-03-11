@@ -5,6 +5,7 @@ const messageControl = require('../controllers/messageControl');
 
 router.post('/postmessage',auth, messageControl.postMessage);
 router.get('/conversations/query',auth, messageControl.converstationsByUsers);
-router.post('/conversations',auth, messageControl.conversationList) 
+router.post('/conversations', messageControl.conversationList); 
+router.post('/chats',  messageControl.chatMessagesByConversation);
 
 module.exports = router; 
