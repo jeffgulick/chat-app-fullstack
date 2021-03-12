@@ -54,3 +54,9 @@ export const getMessages = (info) => {
       })
   }
 }
+export const toggleSideBar = () => {
+  return {
+    type: "TOGGLE_SIDEBAR",
+    value: true
+  }
+}

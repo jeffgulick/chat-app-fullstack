@@ -22,14 +22,15 @@ const SideBarList = (props) => {
 
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 15000);
   },[]);
 
 
   const handleSelection = (info) => {
     console.log('pussy')
-    // props.getMessages(info)
-    // console.log(props.messages)
+    props.getMessages(info)
+    props.toggleSideBar()
+    console.log(props.messages)
   }
   
 

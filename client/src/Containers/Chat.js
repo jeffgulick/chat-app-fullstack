@@ -6,7 +6,8 @@ const mapStateToProps = state => {
     return {
         user: state.user,
         recipient: state.recipient,
-        messages: state.messages
+        messages: state.messages,
+        toggleSideBar: state.toggleSideBar
     }
   }
   

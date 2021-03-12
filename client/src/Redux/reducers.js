@@ -52,6 +52,14 @@ const messages = (state = {}, action) => {
       return state
   }
 }
+const toggleSideBar = (state={}, action) => {
+  switch (action.type) {
+    case 'TOGGLE_SIDEBAR' :
+      return action.value;
+    default:
+      return state
+  }
+}
 
 export default combineReducers({
   loggedIn,
@@ -59,5 +67,6 @@ export default combineReducers({
   recipient,
   lastConversations,
   conversationId,
-  messages
+  messages,
+  toggleSideBar
 });

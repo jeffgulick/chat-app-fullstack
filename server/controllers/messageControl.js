@@ -56,7 +56,6 @@ const conversationList = async (req, res) => {
           let msgObj = { conversationName: "", message: "", sender: "" };
           if (item.userSent[0]._id == req.body.senderId) {
             msgObj.conversationName = item.userRecieved[0].username;
-
             msgObj.message = item.message;
             msgObj.sender = item.userSent[0].username;
           } else {

@@ -107,15 +107,28 @@ const Chat = (props) => {
 
   let results;
   useEffect(() => {
+    if(props.toggleSideBar) {
+      setTimeout(() => {
+        let userArray = props.messages.map(item => {
+          let userObj = {message:'', username:''};
+          userObj.username = item.sender;
+          userObj.message = item.message;
+          return userObj;
+        })
+        setMessages(userArray);
+      }, 1500);
+      
+    }
+    
     socket.on("Output Chat Message", (data) => {
       results = data[0];
       setMessages((messages) => [...messages, results]);
+      console.log('messages', results)
     });
-    console.log(user);
     return () => {
       socket.removeListener("Output Chat Message");
     };
-  }, []);
+  }, [messages, props]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
