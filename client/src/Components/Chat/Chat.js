@@ -104,31 +104,31 @@ const Chat = (props) => {
   socket.connect();
 
   let user = props.user;
-
   let results;
+
   useEffect(() => {
-    if(props.toggleSideBar) {
-      setTimeout(() => {
-        let userArray = props.messages.map(item => {
-          let userObj = {message:'', username:''};
-          userObj.username = item.sender;
-          userObj.message = item.message;
-          return userObj;
-        })
-        setMessages(userArray);
-      }, 1500);
-      
-    }
-    
+
     socket.on("Output Chat Message", (data) => {
       results = data[0];
       setMessages((messages) => [...messages, results]);
       console.log('messages', results)
     });
     return () => {
-      socket.removeListener("Output Chat Message");
+      socket.removeListener("Output Chat Message"); 
     };
-  }, [messages, props]);
+  }, []);
+
+  // useEffect(() => {
+  //   let userArray = props.messages.map(item => {
+  //     let userObj = {message:'', username:''};
+  //     userObj.username = item.sender;
+  //     userObj.message = item.message;
+  //     return userObj;
+  //   })
+  //   setMessages(userArray)
+  //   console.log('timeout', messages)
+
+  // }, [props])
 
   const handleSubmit = (event) => {
     event.preventDefault();

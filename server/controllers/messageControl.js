@@ -53,8 +53,9 @@ const conversationList = async (req, res) => {
       } else {
         //parsing data to work with later
         let conversations = messages.map((item) => {
-          let msgObj = { conversationName: "", message: "", sender: "" };
+          let msgObj = { conversationName: "", message: "", sender: "" }; 
           if (item.userSent[0]._id == req.body.senderId) {
+            console.log(item.userRecieved[0].username) 
             msgObj.conversationName = item.userRecieved[0].username;
             msgObj.message = item.message;
             msgObj.sender = item.userSent[0].username;
@@ -148,8 +149,7 @@ const chatMessagesByConversation = async (req, res) => {
           return msgObj;
         });
 
-        let listOfMessages = conversations.filter(
-          (item) => item.conversationName == user2
+        let listOfMessages = conversations.filter(item => item.conversationName == user2
         );
         res.send(listOfMessages);
       }

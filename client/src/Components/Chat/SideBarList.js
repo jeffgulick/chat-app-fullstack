@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -22,12 +21,11 @@ const SideBarList = (props) => {
 
     setTimeout(() => {
       setLoading(false);
-    }, 15000);
+    }, 1000);
   },[]);
 
 
   const handleSelection = (info) => {
-    console.log('pussy')
     props.getMessages(info)
     props.toggleSideBar()
     console.log(props.messages)
