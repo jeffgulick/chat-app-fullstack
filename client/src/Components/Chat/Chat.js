@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./ChatStyles.css";
-
 import MsgBar from "../../Containers/MsgBar";
 import styled from "styled-components";
 import useSocket from "use-socket.io-client";
@@ -76,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
     width: "auto",
     height: "100%",
     backgroundColor: "#242526",
+    overflowY: "scroll",
   },
   messageContent: {
     display: "flex",
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "15pt",
     marginLeft: "15pt",
     color: "white",
-    overflowY: "auto",
+    // overflowY: "auto",
   },
   input: {
     marginTop: 0,
@@ -103,38 +103,38 @@ const Chat = (props) => {
   const [messages, setMessages] = useState([]);
   const [socket] = useSocket("http://localhost:3001");
   let list = props.messages;
+  let toggle = props.toggleSideBar;
   socket.connect();
 
   let user = props.user;
   let results;
 
+  //recieving message from server
   useEffect(() => {
-
     socket.on("Output Chat Message", (data) => {
       results = data[0];
-      // setMessages((messages) => [...messages, results]);
-      console.log('messages', results)
+      setMessages((messages) => [...messages, results]);
     });
     return () => {
-      socket.removeListener("Output Chat Message"); 
+      socket.removeListener("Output Chat Message");
     };
-  }, []);
+  }, [results]);
 
-//displays old messages from database
+  //displays old messages from database
   useEffect(() => {
-    setMessages('')
-    let userArray = list.map(item => {
-      let userObj = {message:'', username:''};
-      userObj.username = item.sender;
-      userObj.message = item.message;
-      return userObj;
-    })
-    setMessages(userArray)
-    // setMessages((messages) => [...messages, userArray]);
-    console.log(messages)
+    if (toggle) {
+      setMessages("");
+      let userArray = list.map((item) => {
+        let userObj = { message: "", username: "" };
+        userObj.username = item.sender;
+        userObj.message = item.message;
+        return userObj;
+      });
+      setMessages(userArray);
+    }
+  }, [list]);
 
-  }, [list])
-
+  //sending message to server
   const handleSubmit = (event) => {
     event.preventDefault();
     let chatMessage = input;
@@ -150,6 +150,7 @@ const Chat = (props) => {
     });
     setInput("");
   };
+
   return (
     <div className={classes.page}>
       <MsgBar />
