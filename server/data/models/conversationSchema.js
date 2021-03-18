@@ -2,18 +2,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ConversationSchema = new Schema({
-    conversationId: [{ 
-        type: Schema.Types.conversationId, 
-        ref: 'Message' }],
-
-    
-    // lastMessage: {
-    //     type: String,
-    // },
-    // date: {
-    //     type: String,
-    //     default: Date.now,
-    // },
+    sender: {
+        type: String,
+        type: Schema.Types.ObjectId,
+    },
+    recipient: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },    
+    date: {
+        type: String,
+        default: Date.now,
+    },
 });
 
 const Conversation = mongoose.model('conversations', ConversationSchema);

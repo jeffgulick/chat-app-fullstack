@@ -11,6 +11,19 @@ const postMessage = (req, res) => {
     });
   });
 };
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//controller to group messages by send/recieve. creates conversation
+const createConversation = (req, res) => {
+  const conversation = new Conversation({
+    user1: req.body.senderId,
+    user2: req.body.recipientId
+  })
+
+  conversation.save((err, doc) => {
+    if (err) return res.json({success: false, err});
+    return res.status(200).json({success: true, conversationId: doc._id})
+  })
+}
 
 const conversationList = async (req, res) => {
   let user = mongoose.Types.ObjectId(req.body.senderId);
@@ -55,7 +68,6 @@ const conversationList = async (req, res) => {
         let conversations = messages.map((item) => {
           let msgObj = { conversationName: "", message: "", sender: "" }; 
           if (item.userSent[0]._id == req.body.senderId) {
-            console.log(item.userRecieved[0].username) 
             msgObj.conversationName = item.userRecieved[0].username;
             msgObj.message = item.message;
             msgObj.sender = item.userSent[0].username;
@@ -205,6 +217,7 @@ const converstationsByUsers = async (req, res) => {
 
 module.exports = {
   postMessage,
+  createConversation,
   converstationsByUsers,
   conversationList,
   chatMessagesByConversation,

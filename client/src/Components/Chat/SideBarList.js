@@ -28,7 +28,6 @@ const SideBarList = (props) => {
   const handleSelection = (info) => {
     props.getMessages(info)
     props.toggleSideBar()
-    console.log(props.messages)
   }
   
 
