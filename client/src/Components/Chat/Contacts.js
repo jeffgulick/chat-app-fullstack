@@ -29,6 +29,7 @@ const Contacts = (props) => {
 
   const selectPerson = (user) => {
     props.getRecipient(user);
+    //////////////////////////////////////////////////////////////////
     props.closeModal();
   };
 

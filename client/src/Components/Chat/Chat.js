@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import "./ChatStyles.css";
+
 import MsgBar from "../../Containers/MsgBar";
 import styled from "styled-components";
 import useSocket from "use-socket.io-client";
@@ -101,6 +102,7 @@ const Chat = (props) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [socket] = useSocket("http://localhost:3001");
+  let list = props.messages;
   socket.connect();
 
   let user = props.user;
@@ -110,7 +112,7 @@ const Chat = (props) => {
 
     socket.on("Output Chat Message", (data) => {
       results = data[0];
-      setMessages((messages) => [...messages, results]);
+      // setMessages((messages) => [...messages, results]);
       console.log('messages', results)
     });
     return () => {
@@ -118,17 +120,20 @@ const Chat = (props) => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   let userArray = props.messages.map(item => {
-  //     let userObj = {message:'', username:''};
-  //     userObj.username = item.sender;
-  //     userObj.message = item.message;
-  //     return userObj;
-  //   })
-  //   setMessages(userArray)
-  //   console.log('timeout', messages)
+//displays old messages from database
+  useEffect(() => {
+    setMessages('')
+    let userArray = list.map(item => {
+      let userObj = {message:'', username:''};
+      userObj.username = item.sender;
+      userObj.message = item.message;
+      return userObj;
+    })
+    setMessages(userArray)
+    // setMessages((messages) => [...messages, userArray]);
+    console.log(messages)
 
-  // }, [props])
+  }, [list])
 
   const handleSubmit = (event) => {
     event.preventDefault();
