@@ -15,21 +15,19 @@ const SideBarList = (props) => {
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
   let userId = props.user.userId;
-  
+
   useEffect(() => {
     props.getConversations(userId);
 
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  },[]);
-
+  }, []);
 
   const handleSelection = (info) => {
-    props.getMessages(info)
-    props.toggleSideBar()
-  }
-  
+    props.getMessages(info);
+    props.toggleSideBar();
+  };
 
   return (
     <List className={classes.chatList}>
@@ -42,13 +40,17 @@ const SideBarList = (props) => {
               <ListItem
                 alignItems="flex-start"
                 style={{ color: "white", paddingRight: "0" }}
-                
               >
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                 </ListItemAvatar>
                 <ListItemText
-                  onClick={() => handleSelection({senderId: props.user.userId, conversationName:item.conversationName})}
+                  onClick={() =>
+                    handleSelection({
+                      senderId: props.user.userId,
+                      conversationName: item.conversationName,
+                    })
+                  }
                   primary={item.conversationName}
                   secondary={
                     <React.Fragment>

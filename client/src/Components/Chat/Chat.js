@@ -29,7 +29,7 @@ const BubbleMe = styled.p`
   padding-right: 15pt;
   padding-top: 5pt;
   padding-bottom: 5pt;
-  margin: 10pt;
+  margin: 7pt;
   border: 2pt solid #2d88ff;
   border-radius: 25px;
   -webkit-border-radius: 25px;
