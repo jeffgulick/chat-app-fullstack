@@ -13,7 +13,7 @@ const postMessage = (req, res) => {
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //controller to group messages by send/recieve. creates conversation
-const createConversation = (req, res) => {
+const createConversationDoc = (req, res) => {
   const conversation = new Conversation({
     user1: req.body.senderId,
     user2: req.body.recipientId
@@ -104,6 +104,7 @@ const conversationList = async (req, res) => {
     });
 };
 
+//gets messages depending on which conversation is currently active
 const chatMessagesByConversation = async (req, res) => {
   let user = mongoose.Types.ObjectId(req.body.senderId);
   let user2 = req.body.conversationName;
@@ -217,7 +218,7 @@ const converstationsByUsers = async (req, res) => {
 
 module.exports = {
   postMessage,
-  createConversation,
+  createConversationDoc,
   converstationsByUsers,
   conversationList,
   chatMessagesByConversation,

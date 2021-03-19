@@ -4,7 +4,7 @@ const { auth } = require("../middleware/auth");
 const messageControl = require('../controllers/messageControl');
 
 router.post('/postmessage',auth, messageControl.postMessage);
-router.post('/createconversation', auth, messageControl.createConversation);
+router.post('/createconversation', auth, messageControl.createConversationDoc);
 router.get('/conversations/query',auth, messageControl.converstationsByUsers);
 router.post('/conversations', messageControl.conversationList); 
 router.post('/chats',  messageControl.chatMessagesByConversation);

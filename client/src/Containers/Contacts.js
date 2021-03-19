@@ -1,19 +1,19 @@
 import { connect } from "react-redux";
 import Contacts from "../Components/Chat/Contacts";
 import { getRecipient } from "../Redux/actions";
-import { getConversationId } from "../Redux/actions";
+import { createConversationDoc } from "../Redux/actions";
 
 const mapStateToProps = (state) => {
   return {
     recipient: state.recipient,
-    conversationId: state.conversationId,
+    conversationDoc: state.conversationDoc
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getRecipient: (user) => dispatch(getRecipient(user)),
-    getConversationId: (id) => dispatch(getConversationId(id)),
+    createConversationDoc: (info) => dispatch(createConversationDoc(info))
   };
 };
 
