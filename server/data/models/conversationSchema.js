@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const ConversationSchema = new Schema({
     sender: {
-        type: String,
         type: Schema.Types.ObjectId,
+        ref: "User"
     },
     recipient: {
         type: Schema.Types.ObjectId,

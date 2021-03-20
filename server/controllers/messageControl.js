@@ -1,4 +1,5 @@
 const { Message } = require("../data/models/messageSchema");
+const { Conversation } = require("../data/models/conversationSchema");
 const mongoose = require("mongoose");
 
 const postMessage = (req, res) => {
@@ -15,16 +16,16 @@ const postMessage = (req, res) => {
 //controller to group messages by send/recieve. creates conversation
 const createConversationDoc = (req, res) => {
   const conversation = new Conversation({
-    user1: req.body.senderId,
-    user2: req.body.recipientId
+    sender: req.body.senderId,
+    recipient: req.body.recipientId
   })
-
-  conversation.save((err, doc) => {
-    if (err) return res.json({success: false, err});
-    return res.status(200).json({success: true, conversationId: doc._id})
+  conversation.save((err, user) => {
+    if (err){
+      return res.json({success: false, err});
+    } 
+    res.status(200).json({success: true, conversationId: user._id})
   })
 }
-
 const conversationList = async (req, res) => {
   let user = mongoose.Types.ObjectId(req.body.senderId);
 

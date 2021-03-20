@@ -6,7 +6,8 @@ import { createConversationDoc } from "../Redux/actions";
 const mapStateToProps = (state) => {
   return {
     recipient: state.recipient,
-    conversationDoc: state.conversationDoc
+    conversationDoc: state.conversationDoc,
+    user: state.user
   };
 };
 
