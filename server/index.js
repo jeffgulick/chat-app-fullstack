@@ -35,8 +35,11 @@ io.on("connection", socket => {
           sender: msg.senderId,
           recipient: msg.recipientId,
           username: msg.username,
+          conversationId: msg.conversationId
               })
+
           chat.save((err, doc) => {
+            console.log('************', chat.conversationId)
             if(err) return res.json({ success: false, err })
 
             Message.find({ "_id": doc._id })

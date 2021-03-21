@@ -16,11 +16,10 @@ const messageSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    // conversationId: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Conversation'
-    // },
+    conversationId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Conversations',    
+    },
     date: {
         type: String,
         default: Date.now,

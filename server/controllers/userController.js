@@ -62,7 +62,6 @@ const logOutUser = (req, res) => {
 const getUsers = async (req, res) => {
     await User.find()
         .exec((err, users) => {
-            console.log(users)
             if(err) return res.status(400).send(err);
             res.status(200).send(users)
         })
