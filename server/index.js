@@ -9,56 +9,50 @@ const io = require("socket.io")(server);
 const config = require("./data/database");
 
 const mongoose = require("mongoose");
-const connect = mongoose.connect(config.mongoURI,
-  {
-    useNewUrlParser: true, useUnifiedTopology: true,
-    useCreateIndex: true, useFindAndModify: false
+const connect = mongoose
+  .connect(config.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
   })
-  .then(() => console.log('MongoDB Connected...'))
-  .catch(err => console.log(err));
+  .then(() => console.log("MongoDB Connected..."))
+  .catch((err) => console.log(err));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cookieParser()); 
+app.use(cookieParser());
 
-app.use('/api/users', require('./routes/userRouter'));
-app.use('/api/messages', require('./routes/messagesRouter'));
+app.use("/api/users", require("./routes/userRouter"));
+app.use("/api/messages", require("./routes/messagesRouter"));
 
-io.on("connection", socket => {
-
-  socket.on("Input Chat Message", msg => {
-
-    connect.then(db => {
+io.on("connection", (socket) => {
+  socket.on("Input Chat Message", (msg) => {
+    connect.then((db) => {
       try {
-          let chat = new Message ({ 
-          message: msg.chatMessage, 
+        let chat = new Message({
+          message: msg.chatMessage,
           sender: msg.senderId,
           recipient: msg.recipientId,
           username: msg.username,
-          conversationId: msg.conversationId
-              })
+          conversationId: msg.conversationId,
+        });
 
-          chat.save((err, doc) => {
-            console.log('************', chat.conversationId)
-            if(err) return res.json({ success: false, err })
+        chat.save((err, doc) => {
+          if (err) return res.json({ success: false, err });
 
-            Message.find({ "_id": doc._id })
+          Message.find({ _id: doc._id })
             .populate("sender")
-            .exec((err, doc)=> {
-
-                return (
-                  io.emit("Output Chat Message", doc)
-                ) 
-            })
-          })
-          
+            .exec((err, doc) => {
+              return io.emit("Output Chat Message", doc);
+            });
+        });
       } catch (error) {
         console.error(error);
       }
-    })
-   })
-
-})
+    });
+  });
+});
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -67,7 +61,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3001;
 server.listen(port, () => {
-  console.log(`Server Listening on ${port}`)
+  console.log(`Server Listening on ${port}`);
 });
