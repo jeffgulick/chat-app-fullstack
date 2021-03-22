@@ -7,14 +7,14 @@ const mapStateToProps = (state) => {
   return {
     recipient: state.recipient,
     CreateConversationDoc: state.CreateConversationDoc,
-    user: state.user
+    user: state.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getRecipient: (user) => dispatch(getRecipient(user)),
-    createConversationDoc: (info) => dispatch(createConversationDoc(info))
+    createConversationDoc: (info) => dispatch(createConversationDoc(info)),
   };
 };
 

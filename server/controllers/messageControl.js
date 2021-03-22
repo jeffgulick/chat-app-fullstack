@@ -91,14 +91,16 @@ const conversationList = async (req, res) => {
       } else {
         //parsing data to work with later
         let conversations = messages.map((item) => {
-          let msgObj = { conversationName: "", message: "", sender: "" };
-          if (item.userSent[0]._id == req.body.senderId) {
+          let msgObj = { conversationName: "", message: "", sender: "", recipientId: "" };
+          if (item.userSent[0]._id == req.body.senderId) { 
             msgObj.conversationName = item.userRecieved[0].username;
             msgObj.message = item.message;
+            msgObj.recipientId = item.recipient;
             msgObj.sender = item.userSent[0].username;
           } else {
             msgObj.conversationName = item.userSent[0].username;
             msgObj.message = item.message;
+            msgObj.recipientId = item.recipient;
             msgObj.sender = item.userSent[0].username;
           }
           return msgObj;
@@ -108,7 +110,7 @@ const conversationList = async (req, res) => {
           return objectArray.reduce((acc, obj) => {
             let key = obj[property];
             if (!acc[key]) {
-              acc[key] = [];
+              acc[key] = []; 
             }
             acc[key].push(obj);
             return acc;
@@ -173,14 +175,16 @@ const chatMessagesByConversation = async (req, res) => {
         let temp = messages;
         //parsing data to work with later
         let conversations = temp.map((item) => {
-          let msgObj = { conversationName: "", message: "", sender: "" };
+          let msgObj = { conversationName: "", message: "", sender: "", conversationId: "" };
           if (item.userSent[0]._id == req.body.senderId) {
             msgObj.conversationName = item.userRecieved[0].username;
             msgObj.message = item.message;
+            msgObj.conversationId = item.conversationId;
             msgObj.sender = item.userSent[0].username;
           } else {
             msgObj.conversationName = item.userSent[0].username;
             msgObj.message = item.message;
+            msgObj.conversationId = item.conversationId;
             msgObj.sender = item.userSent[0].username;
           }
           return msgObj;
@@ -240,10 +244,25 @@ const converstationsByUsers = async (req, res) => {
       }
     });
 };
+//gets sender and recipient information from a conversation document 
+const conversationInfo = async (req, res) => {
+  await Conversation.findOne({ conversationId: req.body.conversationId }, (err, id) => {
+      if(err) return res.status(400).send(err);
+      if (!id)
+          return res.json({
+              Success: false,
+              message: "Conversation Not found"
+          });
 
+      console.log('***************', id)
+      let conversationInfo = {senderId: id.sender, recipientId: id.recipient}
+      return res.status(200).send(conversationInfo)
+  })
+}
 module.exports = {
   createConversationDoc,
   converstationsByUsers,
   conversationList,
+  conversationInfo,
   chatMessagesByConversation,
 };
