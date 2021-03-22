@@ -2,53 +2,42 @@ const { Message } = require("../data/models/messageSchema");
 const { Conversation } = require("../data/models/conversationSchema");
 const mongoose = require("mongoose");
 
+
 //creates conversation ids based on sender and recipient
 //checks for an existing conversation in database and either creates a new conversation or passes existing id to client
 const createConversationDoc = (req, res) => {
   Conversation.findOne(
-    {
-      $or: [
-        {
-          $and: [
-            { sender: req.body.senderId },
-            { recipient: req.body.recipientId },
-          ],
-        },
-        {
-          $and: [
-            { sender: req.body.recipientId },
-            { recipient: req.body.senderId },
-          ],
-        },
-      ],
-    },
-    (err, conv) => {
-      if (err) {
-        return res.json({ success: false, err });
+    { $or: 
+      [
+        {$and: [{sender: req.body.senderId}, {recipient: req.body.recipientId}]},
+        {$and: [{sender: req.body.recipientId}, {recipient: req.body.senderId}]}
+      ]
+    }, 
+    (err, conv)=> {
+      if (err){
+        return res.json({success: false, err});
       }
-      if (conv) {
+      if(conv){
+        console.log('*****I match')
         //returning existing id to client
-        res
-          .status(200)
-          .json({ message: "existing conversation", conversationId: conv._id });
-      } else {
+        res.status(200).json({message:'existing conversation', conversationId: conv._id})
+      }
+      else {
+        console.log('*********i do not match')
         //creates new conversation document
         const conversation = new Conversation({
           sender: req.body.senderId,
-          recipient: req.body.recipientId,
-        });
+          recipient: req.body.recipientId
+        })
         conversation.save((err, user) => {
-          if (err) {
-            return res.json({ success: false, err });
+          if (err){
+            return res.json({success: false, err});
           }
-          res
-            .status(200)
-            .json({ message: "new conversation", conversationId: user._id });
-        });
-      }
+          res.status(200).json({message: 'new conversation', conversationId: user._id})
+        })
     }
-  );
-};
+ })
+}
 //creates a list of conversations for the currently logged in user. changes depending on who is logged in
 const conversationList = async (req, res) => {
   let user = mongoose.Types.ObjectId(req.body.senderId);
@@ -80,7 +69,7 @@ const conversationList = async (req, res) => {
       "userSent.date": 0,
       "userRecieved.date": 0,
       "userSent.password": 0,
-      "userRecieved.password": 0,
+      "userRecieved.password":0,
     })
     .exec((err, messages) => {
       if (err) {
@@ -91,7 +80,7 @@ const conversationList = async (req, res) => {
       } else {
         //parsing data to work with later
         let conversations = messages.map((item) => {
-          let msgObj = { conversationName: "", message: "", sender: "" };
+          let msgObj = { conversationName: "", message: "", sender: "" }; 
           if (item.userSent[0]._id == req.body.senderId) {
             msgObj.conversationName = item.userRecieved[0].username;
             msgObj.message = item.message;
@@ -115,7 +104,7 @@ const conversationList = async (req, res) => {
           }, {});
         };
         groupedConversations = groupBy(conversations, "conversationName");
-        //pulls the last message from the messages array
+//pulls the last message from the messages array
         let lastMessage = [];
         const entries = Object.values(groupedConversations);
         entries.forEach((item) => {
@@ -161,7 +150,8 @@ const chatMessagesByConversation = async (req, res) => {
       "userSent.date": 0,
       "userRecieved.date": 0,
       "userSent.password": 0,
-      "userRecieved.password": 0,
+      "userRecieved.password":0,
+
     })
     .exec((err, messages) => {
       if (err) {
@@ -186,8 +176,7 @@ const chatMessagesByConversation = async (req, res) => {
           return msgObj;
         });
 
-        let listOfMessages = conversations.filter(
-          (item) => item.conversationName == user2
+        let listOfMessages = conversations.filter(item => item.conversationName == user2
         );
         res.send(listOfMessages);
       }
