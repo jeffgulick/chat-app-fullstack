@@ -22,12 +22,6 @@ export const getRecipient = (user) => {
     value: user,
   };
 };
-export const getConversationId = (id) => {
-  return {
-    type: "GET_CONVERSATION_ID",
-    value: id,
-  };
-};
 export const getConversations = (user) => {
   return (dispatch) => {
     axios
@@ -51,6 +45,19 @@ export const getMessages = (info) => {
           value: data.data
         }
         dispatch(action);
+      })
+  }
+}
+export const createConversationDoc = (info) => {
+  return (dispatch) => {
+    axios.post("/api/messages/createconversation", info)
+      .then (data => {
+        console.log(data)
+        const action = {
+          type: "CREATE_CONVERSATION_DOC",
+          value: data.data
+        }
+        dispatch(action)
       })
   }
 }

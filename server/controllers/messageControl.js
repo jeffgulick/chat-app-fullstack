@@ -1,30 +1,44 @@
 const { Message } = require("../data/models/messageSchema");
+const { Conversation } = require("../data/models/conversationSchema");
 const mongoose = require("mongoose");
 
-const postMessage = (req, res) => {
-  const message = new Message(req.body);
 
-  message.save((err, doc) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).json({
-      success: true,
-    });
-  });
-};
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//controller to group messages by send/recieve. creates conversation
-const createConversation = (req, res) => {
-  const conversation = new Conversation({
-    user1: req.body.senderId,
-    user2: req.body.recipientId
-  })
-
-  conversation.save((err, doc) => {
-    if (err) return res.json({success: false, err});
-    return res.status(200).json({success: true, conversationId: doc._id})
-  })
+//creates conversation ids based on sender and recipient
+//checks for an existing conversation in database and either creates a new conversation or passes existing id to client
+const createConversationDoc = (req, res) => {
+  Conversation.findOne(
+    { $or: 
+      [
+        {$and: [{sender: req.body.senderId}, {recipient: req.body.recipientId}]},
+        {$and: [{sender: req.body.recipientId}, {recipient: req.body.senderId}]}
+      ]
+    }, 
+    (err, conv)=> {
+      if (err){
+        return res.json({success: false, err});
+      }
+      if(conv){
+        console.log('*****I match')
+        //returning existing id to client
+        res.status(200).json({message:'existing conversation', conversationId: conv._id})
+      }
+      else {
+        console.log('*********i do not match')
+        //creates new conversation document
+        const conversation = new Conversation({
+          sender: req.body.senderId,
+          recipient: req.body.recipientId
+        })
+        conversation.save((err, user) => {
+          if (err){
+            return res.json({success: false, err});
+          }
+          res.status(200).json({message: 'new conversation', conversationId: user._id})
+        })
+    }
+ })
 }
-
+//creates a list of conversations for the currently logged in user. changes depending on who is logged in
 const conversationList = async (req, res) => {
   let user = mongoose.Types.ObjectId(req.body.senderId);
 
@@ -90,7 +104,7 @@ const conversationList = async (req, res) => {
           }, {});
         };
         groupedConversations = groupBy(conversations, "conversationName");
-
+//pulls the last message from the messages array
         let lastMessage = [];
         const entries = Object.values(groupedConversations);
         entries.forEach((item) => {
@@ -104,6 +118,7 @@ const conversationList = async (req, res) => {
     });
 };
 
+//gets messages depending on which conversation is currently active
 const chatMessagesByConversation = async (req, res) => {
   let user = mongoose.Types.ObjectId(req.body.senderId);
   let user2 = req.body.conversationName;
@@ -216,8 +231,7 @@ const converstationsByUsers = async (req, res) => {
 };
 
 module.exports = {
-  postMessage,
-  createConversation,
+  createConversationDoc,
   converstationsByUsers,
   conversationList,
   chatMessagesByConversation,

@@ -28,8 +28,11 @@ const Contacts = (props) => {
   }, []);
 
   const selectPerson = (user) => {
+    let info = {senderId:'', recipientId:''};
+    info.recipientId = user._id;
+    info.senderId = props.user.userId;
     props.getRecipient(user);
-    //////////////////////////////////////////////////////////////////
+    props.createConversationDoc(info);
     props.closeModal();
   };
 

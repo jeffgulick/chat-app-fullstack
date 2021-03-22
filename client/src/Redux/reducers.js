@@ -11,6 +11,7 @@ const loggedIn = (state = initState, action) => {
       return state;
   }
 };
+//gets and saves user info
 const user = (state = {}, action) => {
   switch (action.type) {
     case "GET_USER":
@@ -20,6 +21,7 @@ const user = (state = {}, action) => {
       return state;
   }
 };
+//gets recipient info
 const recipient = (state = initState.recipient, action) => {
   switch (action.type) {
     case "GET_RECIPIENT":
@@ -28,6 +30,7 @@ const recipient = (state = initState.recipient, action) => {
       return state;
   }
 };
+//gets info for side bar chat names
 const lastConversations = (state = {}, action) => {
   switch (action.type) {
     case "GET_CONVERSATIONS":
@@ -36,14 +39,7 @@ const lastConversations = (state = {}, action) => {
       return state;
   }
 };
-const conversationId = (state = {}, action) => {
-  switch (action.type) {
-    case "GET_CONVERSATION_ID":
-      return action.value;
-    default:
-      return state;
-  }
-};
+//get conversation messages for active conversation
 const messages = (state = {}, action) => {
   switch (action.type) {
     case "GET_MESSAGES" :
@@ -52,6 +48,16 @@ const messages = (state = {}, action) => {
       return state
   }
 }
+//creates conversation docment in db
+const createConversationDoc = (state = {}, action) => {
+  switch (action.type) {
+    case "CREATE_CONVERSATION_DOC" :
+      return action.value;
+    default:
+      return state
+  }
+}
+//checks to see if sidebar is clicke
 const toggleSideBar = (state={}, action) => {
   switch (action.type) {
     case 'TOGGLE_SIDEBAR' :
@@ -66,7 +72,7 @@ export default combineReducers({
   user,
   recipient,
   lastConversations,
-  conversationId,
   messages,
+  createConversationDoc,
   toggleSideBar
 });
