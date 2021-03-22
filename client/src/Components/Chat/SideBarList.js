@@ -25,8 +25,24 @@ const SideBarList = (props) => {
   }, []);
 
   const handleSelection = (info) => {
-    props.getMessages(info);
+    let forMessages = {
+      senderId: info.senderId,
+      conversationName: info.conversationName,
+    };
+    props.getMessages(forMessages);
     props.toggleSideBar();
+
+    let user = {
+      _id: info.recipientId,
+      username: info.conversationName,
+    };
+    props.getRecipient(user);
+
+    let conversationCheck = {
+      senderId: info.senderId,
+      recipientId: info.recipientId,
+    };
+    props.createConversationDoc(conversationCheck);
   };
 
   return (
@@ -49,6 +65,7 @@ const SideBarList = (props) => {
                     handleSelection({
                       senderId: props.user.userId,
                       conversationName: item.conversationName,
+                      recipientId: item.recipientId,
                     })
                   }
                   primary={item.conversationName}

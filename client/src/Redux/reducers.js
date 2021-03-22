@@ -42,30 +42,30 @@ const lastConversations = (state = {}, action) => {
 //get conversation messages for active conversation
 const messages = (state = {}, action) => {
   switch (action.type) {
-    case "GET_MESSAGES" :
+    case "GET_MESSAGES":
       return action.value;
     default:
-      return state
+      return state;
   }
-}
+};
 //creates conversation docment in db
 const createConversationDoc = (state = {}, action) => {
   switch (action.type) {
-    case "CREATE_CONVERSATION_DOC" :
+    case "CREATE_CONVERSATION_DOC":
       return action.value;
     default:
-      return state
+      return state;
   }
-}
-//checks to see if sidebar is clicke
-const toggleSideBar = (state={}, action) => {
+};
+//checks to see if sidebar is clicked
+const toggleSideBar = (state = {}, action) => {
   switch (action.type) {
-    case 'TOGGLE_SIDEBAR' :
+    case "TOGGLE_SIDEBAR":
       return action.value;
     default:
-      return state
+      return state;
   }
-}
+};
 
 export default combineReducers({
   loggedIn,
@@ -74,5 +74,5 @@ export default combineReducers({
   lastConversations,
   messages,
   createConversationDoc,
-  toggleSideBar
+  toggleSideBar,
 });
