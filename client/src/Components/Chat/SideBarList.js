@@ -24,25 +24,29 @@ const SideBarList = (props) => {
     }, 1000);
   }, []);
 
+  // const handleSelection = (info) => {
+  //   let forMessages = {
+  //     senderId: info.senderId,
+  //     conversationName: info.conversationName,
+  //   };
+  //   props.getMessages(forMessages);
+  //   props.toggleSideBar();
+
+  //   let user = {
+  //     _id: info.recipientId,
+  //     username: info.conversationName,
+  //   };
+  //   props.getRecipient(user);
+
+  //   let conversationCheck = {
+  //     senderId: info.senderId,
+  //     recipientId: info.recipientId,
+  //   };
+  //   props.createConversationDoc(conversationCheck);
+  // };
   const handleSelection = (info) => {
-    let forMessages = {
-      senderId: info.senderId,
-      conversationName: info.conversationName,
-    };
-    props.getMessages(forMessages);
+    props.getMessages(info);
     props.toggleSideBar();
-
-    let user = {
-      _id: info.recipientId,
-      username: info.conversationName,
-    };
-    props.getRecipient(user);
-
-    let conversationCheck = {
-      senderId: info.senderId,
-      recipientId: info.recipientId,
-    };
-    props.createConversationDoc(conversationCheck);
   };
 
   return (
@@ -65,7 +69,7 @@ const SideBarList = (props) => {
                     handleSelection({
                       senderId: props.user.userId,
                       conversationName: item.conversationName,
-                      recipientId: item.recipientId,
+                      // recipientId: item.recipientId,
                     })
                   }
                   primary={item.conversationName}

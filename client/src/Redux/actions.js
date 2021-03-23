@@ -48,19 +48,6 @@ export const getMessages = (info) => {
       })
   }
 }
-export const createConversationDoc = (info) => {
-  return (dispatch) => {
-    axios.post("/api/messages/createconversation", info)
-      .then (data => {
-        console.log(data)
-        const action = {
-          type: "CREATE_CONVERSATION_DOC",
-          value: data.data
-        }
-        dispatch(action)
-      })
-  }
-}
 export const toggleSideBar = () => {
   return {
     type: "TOGGLE_SIDEBAR",

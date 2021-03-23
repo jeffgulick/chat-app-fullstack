@@ -1,12 +1,10 @@
 import { connect } from "react-redux";
 import Contacts from "../Components/Chat/Contacts";
 import { getRecipient } from "../Redux/actions";
-import { createConversationDoc } from "../Redux/actions";
 
 const mapStateToProps = (state) => {
   return {
     recipient: state.recipient,
-    CreateConversationDoc: state.CreateConversationDoc,
     user: state.user,
   };
 };
@@ -14,7 +12,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getRecipient: (user) => dispatch(getRecipient(user)),
-    createConversationDoc: (info) => dispatch(createConversationDoc(info)),
   };
 };
 

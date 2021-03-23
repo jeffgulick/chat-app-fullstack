@@ -26,8 +26,9 @@ app.use(cookieParser());
 app.use("/api/users", require("./routes/userRouter"));
 app.use("/api/messages", require("./routes/messagesRouter"));
 
-io.on("connection", (socket) => {
+io.on("connection", socket => {
   socket.on("Input Chat Message", (msg) => {
+
     connect.then((db) => {
       try {
         let chat = new Message({
@@ -35,7 +36,6 @@ io.on("connection", (socket) => {
           sender: msg.senderId,
           recipient: msg.recipientId,
           username: msg.username,
-          conversationId: msg.conversationId,
         });
 
         chat.save((err, doc) => {

@@ -5,7 +5,6 @@ import {
   getMessages,
   toggleSideBar,
   getRecipient,
-  createConversationDoc,
 } from "../Redux/actions";
 
 const mapStateToProps = (state) => {
@@ -15,7 +14,6 @@ const mapStateToProps = (state) => {
     lastConversations: state.lastConversations,
     messages: state.messages,
     toggleSideBar: state.toggleSideBar,
-    CreateConversationDoc: state.CreateConversationDoc,
   };
 };
 
@@ -25,7 +23,6 @@ const mapDispatchToProps = (dispatch) => {
     getMessages: (info) => dispatch(getMessages(info)),
     toggleSideBar: () => dispatch(toggleSideBar()),
     getRecipient: (user) => dispatch(getRecipient(user)),
-    createConversationDoc: (info) => dispatch(createConversationDoc(info)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideBarList);
