@@ -4,16 +4,18 @@ import {
   getConversations,
   getMessages,
   toggleSideBar,
-  getRecipient,
+  getContacts,
+  getRecipient
 } from "../Redux/actions";
 
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    recipient: state.recipient,
+    contacts: state.contacts,
     lastConversations: state.lastConversations,
     messages: state.messages,
     toggleSideBar: state.toggleSideBar,
+    recipient: state.recipient,
   };
 };
 
@@ -22,6 +24,7 @@ const mapDispatchToProps = (dispatch) => {
     getConversations: (user) => dispatch(getConversations(user)),
     getMessages: (info) => dispatch(getMessages(info)),
     toggleSideBar: () => dispatch(toggleSideBar()),
+    getContacts: () => dispatch(getContacts()),
     getRecipient: (user) => dispatch(getRecipient(user)),
   };
 };

@@ -32,7 +32,6 @@ const Contacts = (props) => {
     info.recipientId = user._id;
     info.senderId = props.user.userId;
     props.getRecipient(user);
-    // props.createConversationDoc(info);
     props.closeModal();
   };
 

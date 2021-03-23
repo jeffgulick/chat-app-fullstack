@@ -67,6 +67,15 @@ const toggleSideBar = (state = {}, action) => {
   }
 };
 
+const contacts = (state = {}, action) => {
+  switch (action.type) {
+    case "GET_CONTACTS" :
+      return action.value;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   loggedIn,
   user,
@@ -75,4 +84,5 @@ export default combineReducers({
   messages,
   createConversationDoc,
   toggleSideBar,
+  contacts
 });
