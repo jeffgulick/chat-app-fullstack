@@ -47,6 +47,12 @@ const SideBarList = (props) => {
   const handleSelection = (info) => {
     props.getMessages(info);
     props.toggleSideBar();
+    props.getContacts()
+
+    setTimeout(() => {
+      let test = props.contacts.find(item => info.conversationName == item.username)
+      props.getRecipient(test)
+    }, 1100);
   };
 
   return (
