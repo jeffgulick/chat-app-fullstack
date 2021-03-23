@@ -4,6 +4,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, List, Typography, Divider } from "@material-ui/core";
+import logo from '../../images/logo.jpg';
 
 const useStyles = makeStyles((theme) => ({
   inline: {
@@ -22,17 +23,17 @@ const SideBarList = (props) => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, []);
+  }, [props]);
 
-  const handleSelection = (info) => {
-    props.getMessages(info);
-    props.toggleSideBar();
+  const handleSelection = async (info) => {
     props.getContacts()
+   await props.getMessages(info);
+    props.toggleSideBar();
 
     setTimeout(() => {
       let test = props.contacts.find(item => info.conversationName == item.username)
       props.getRecipient(test)
-    }, 1100);
+    }, 1000);
   };
 
   return (
@@ -48,7 +49,7 @@ const SideBarList = (props) => {
                 style={{ color: "white", paddingRight: "0" }}
               >
                 <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                  <Avatar alt= {item.username} src={logo} />
                 </ListItemAvatar>
                 <ListItemText
                   onClick={() =>

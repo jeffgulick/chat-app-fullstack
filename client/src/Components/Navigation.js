@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, Button, Paper } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Button, Paper, Avatar } from '@material-ui/core';
+import logo from '../images/logo.jpg';
 import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +24,11 @@ const useStyles = makeStyles((theme) => ({
   status: {
     backgroundColor: '#D3D3D3',
     paddingLeft:'15pt'
-  }
+  },
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  },
 }));
 
 const Navigation = (props) => {
@@ -48,8 +53,9 @@ const Navigation = (props) => {
           <Paper>
             <AppBar className={classes.appBar} position='static' >
               <Toolbar>
-                <Typography variant="h5" className={classes.title}>
-                  Super Chat
+              <Avatar alt="Remy Sharp" src={logo} className={classes.large} />
+                <Typography style={{color:"black"}} variant="h5" className={classes.title}>
+                  TOX
                 </Typography>
                 {logIn ?
                   <div>

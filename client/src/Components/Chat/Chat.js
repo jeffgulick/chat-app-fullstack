@@ -3,12 +3,15 @@ import "./ChatStyles.css";
 import MsgBar from "../../Containers/MsgBar";
 import styled from "styled-components";
 import useSocket from "use-socket.io-client";
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import { makeStyles } from "@material-ui/core/styles";
 
 const InputArea = styled.input`
-  width: 80%;
+  width: 85%;
   height: 45px;
-  border-radius: 30px;
+  ${'' /* border-radius: 30px; */}
   padding-left: 10px;
   font-size: 15px;
   background-color: #c1c1c1;
@@ -94,6 +97,12 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  button: {
+    margin: theme.spacing(1),
+    height: "45px",
+    marginLeft: 0,
+    marginBottom: '9pt'
   },
 }));
 
@@ -186,6 +195,16 @@ const Chat = (props) => {
               onChange={(event) => setInput(event.target.value)}
               onSubmit={handleSubmit}
             />
+            
+      {/* This Button uses a Font Icon, see the installation instructions in the Icon component docs. */}
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              endIcon={<Icon></Icon>}
+            >
+              Send
+            </Button>
           </form>
         </div>
       </div>
