@@ -48,6 +48,19 @@ export const getMessages = (info) => {
       })
   }
 }
+export const getContacts = () => {
+  return (dispatch) => {
+    axios
+      .get("/api/users/contacts")
+      .then(data => {
+        const action = {
+          type: "GET_CONTACTS",
+          value: data.data
+        }
+        dispatch(action);
+      })
+  }
+}
 export const toggleSideBar = () => {
   return {
     type: "TOGGLE_SIDEBAR",

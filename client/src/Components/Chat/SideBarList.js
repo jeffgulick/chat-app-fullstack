@@ -24,29 +24,15 @@ const SideBarList = (props) => {
     }, 1000);
   }, []);
 
-  // const handleSelection = (info) => {
-  //   let forMessages = {
-  //     senderId: info.senderId,
-  //     conversationName: info.conversationName,
-  //   };
-  //   props.getMessages(forMessages);
-  //   props.toggleSideBar();
-
-  //   let user = {
-  //     _id: info.recipientId,
-  //     username: info.conversationName,
-  //   };
-  //   props.getRecipient(user);
-
-  //   let conversationCheck = {
-  //     senderId: info.senderId,
-  //     recipientId: info.recipientId,
-  //   };
-  //   props.createConversationDoc(conversationCheck);
-  // };
   const handleSelection = (info) => {
     props.getMessages(info);
     props.toggleSideBar();
+    props.getContacts()
+
+    setTimeout(() => {
+      let test = props.contacts.find(item => info.conversationName == item.username)
+      props.getRecipient(test)
+    }, 1100);
   };
 
   return (
