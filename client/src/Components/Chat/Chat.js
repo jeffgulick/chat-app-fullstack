@@ -5,7 +5,6 @@ import styled from "styled-components";
 import useSocket from "use-socket.io-client";
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
-import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import { makeStyles } from "@material-ui/core/styles";
 
 const InputArea = styled.input`
@@ -201,7 +200,7 @@ const Chat = (props) => {
               variant="contained"
               color="primary"
               className={classes.button}
-              endIcon={<Icon></Icon>}
+              endIcon={<Icon />}
             >
               Send
             </Button>
@@ -211,4 +210,4 @@ const Chat = (props) => {
     </div>
   );
 };
-export default Chat;
+export default Chat; 

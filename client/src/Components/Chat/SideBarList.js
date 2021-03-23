@@ -19,21 +19,22 @@ const SideBarList = (props) => {
 
   useEffect(() => {
     props.getConversations(userId);
+    props.getContacts()
 
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, [props]);
+  }, []);
 
-  const handleSelection = async (info) => {
-    props.getContacts()
-   await props.getMessages(info);
+  const handleSelection = (info) => {
+    let contacts = props.contacts
+    props.getMessages(info);
     props.toggleSideBar();
 
     setTimeout(() => {
-      let test = props.contacts.find(item => info.conversationName == item.username)
+      let test = contacts.find(item => info.conversationName == item.username)
       props.getRecipient(test)
-    }, 1000);
+    }, 1500);
   };
 
   return (
