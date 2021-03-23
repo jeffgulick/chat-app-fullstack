@@ -131,6 +131,7 @@ const Chat = (props) => {
         return userObj;
       });
       setMessages(userArray);
+  
     }
   }, [list]);
 
