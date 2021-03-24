@@ -10,9 +10,8 @@ import { makeStyles } from "@material-ui/core/styles";
 const InputArea = styled.input`
   position: static;
   top: 0;
-  width: 85%;
+  width: 87%;
   height: 45px;
-  ${"" /* border-radius: 30px; */}
   padding-left: 10px;
   font-size: 15px;
   background-color: #c1c1c1;
@@ -121,6 +120,7 @@ const Chat = (props) => {
   let results;
 
   //recieving message from server
+  //recieves on update of results from server
   useEffect(() => {
     socket.on("Output Chat Message", (data) => {
       results = data[0];
@@ -131,7 +131,8 @@ const Chat = (props) => {
     };
   }, [results]);
 
-  //displays old messages from database
+  //displays old messages from database by to and from 
+  //returns into messages state
   useEffect(() => {
     if (toggle) {
       setMessages("");
