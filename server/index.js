@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const { Message } = require("./data/models/messageSchema");
+const { Message } = require("./data/models/messageSchema"); 
 
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);

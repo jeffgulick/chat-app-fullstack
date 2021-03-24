@@ -126,7 +126,7 @@ const Chat = (props) => {
       results = data[0];
       setMessages((messages) => [...messages, results]);
     });
-    return () => {
+    return () => { 
       socket.removeListener("Output Chat Message");
     };
   }, [results]);
