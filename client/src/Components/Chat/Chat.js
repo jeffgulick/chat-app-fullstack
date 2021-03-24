@@ -3,14 +3,16 @@ import "./ChatStyles.css";
 import MsgBar from "../../Containers/MsgBar";
 import styled from "styled-components";
 import useSocket from "use-socket.io-client";
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
+import Button from "@material-ui/core/Button";
+import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
 
 const InputArea = styled.input`
+  position: static;
+  top: 0;
   width: 85%;
   height: 45px;
-  ${'' /* border-radius: 30px; */}
+  ${"" /* border-radius: 30px; */}
   padding-left: 10px;
   font-size: 15px;
   background-color: #c1c1c1;
@@ -93,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     marginTop: 0,
+    width: "auto",
   },
   title: {
     flexGrow: 1,
@@ -101,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     height: "45px",
     marginLeft: 0,
-    marginBottom: '9pt'
+    marginBottom: "9pt",
   },
 }));
 
@@ -186,7 +189,7 @@ const Chat = (props) => {
             </div>
           ))}
         </div>
-        <div className={classes.input}>
+        <div className={classes.input} style={{ position: "sticky" }}>
           <form onSubmit={handleSubmit} style={{ marginLeft: "15pt" }}>
             <InputArea
               type="text"
@@ -194,8 +197,7 @@ const Chat = (props) => {
               onChange={(event) => setInput(event.target.value)}
               onSubmit={handleSubmit}
             />
-            
-      {/* This Button uses a Font Icon, see the installation instructions in the Icon component docs. */}
+
             <Button
               variant="contained"
               color="primary"
@@ -210,4 +212,4 @@ const Chat = (props) => {
     </div>
   );
 };
-export default Chat; 
+export default Chat;

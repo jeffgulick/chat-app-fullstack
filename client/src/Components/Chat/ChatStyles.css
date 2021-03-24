@@ -2,3 +2,8 @@
     width: min-content;
     background-color: #18191A;
 }
+InputArea {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+  }

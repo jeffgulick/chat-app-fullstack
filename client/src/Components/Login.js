@@ -43,7 +43,7 @@ const useStyles = makeStyles({
     alignContent: "center",
     justifyContent: "center",
     marginTop: "35pt",
-    backgroundColor: "#3CB371",
+    backgroundColor: "#FC4E50",
   },
   typo: {
     display: "grid",
