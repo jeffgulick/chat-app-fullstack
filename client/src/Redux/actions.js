@@ -22,19 +22,6 @@ export const getRecipient = (user) => {
     value: user,
   };
 };
-export const getConversations = (user) => {
-  return (dispatch) => {
-    axios
-      .post("/api/messages/conversations", { senderId: user })
-      .then((data) => {
-        const action = {
-          type: "GET_CONVERSATIONS",
-          value: data.data,
-        };
-        dispatch(action);
-      });
-  };
-};
 export const getMessages = (info) => {
   return (dispatch) => {
     axios

@@ -30,15 +30,6 @@ const recipient = (state = initState.recipient, action) => {
       return state;
   }
 };
-//gets info for side bar chat names
-const lastConversations = (state = {}, action) => {
-  switch (action.type) {
-    case "GET_CONVERSATIONS":
-      return action.value;
-    default:
-      return state;
-  }
-};
 //get conversation messages for active conversation
 const messages = (state = {}, action) => {
   switch (action.type) {
@@ -80,7 +71,6 @@ export default combineReducers({
   loggedIn,
   user,
   recipient,
-  lastConversations,
   messages,
   createConversationDoc,
   toggleSideBar,

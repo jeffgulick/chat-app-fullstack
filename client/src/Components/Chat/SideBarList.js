@@ -5,6 +5,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, List, Typography, Divider } from "@material-ui/core";
 import logo from "../../images/logo.jpg";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   inline: {
@@ -14,29 +15,32 @@ const useStyles = makeStyles((theme) => ({
 
 const SideBarList = (props) => {
   const [loading, setLoading] = useState(true);
+  const [lastConversations, setLastConversations] = useState()
   const classes = useStyles();
   let userId = props.user.userId;
 
+  //populates a list of conversations on render, organized by username and 
+  //the last message sent or recieved
   useEffect(() => {
-    props.getConversations(userId);
-    props.getContacts();
+    axios.post("/api/messages/conversations", { senderId: userId })
+      .then(data => {
+        setLastConversations(data.data)
+        setLoading(false)
+      } )
+  }, [lastConversations]);
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
-
+  //fires when conversation is selected. compares selected conversation to 
+  //user in contacts. 
   const handleSelection = (info) => {
-    let contacts = props.contacts;
+    axios.get("/api/users/contacts")
+      .then(data => {
+        let contacts = data.data
+        let test = contacts.find((item) => info.conversationName == item.username);
+        props.getRecipient(test);
+      })
+    //gets messages from conversations to display in chat container
     props.getMessages(info);
     props.toggleSideBar();
-
-    setTimeout(() => {
-      let test = contacts.find(
-        (item) => info.conversationName == item.username
-      );
-      props.getRecipient(test);
-    }, 1500);
   };
 
   return (
@@ -45,7 +49,7 @@ const SideBarList = (props) => {
         <div>Loading</div>
       ) : (
         <div>
-          {props.lastConversations.map((item, index) => (
+          {lastConversations.map((item, index) => (
             <div key={index}>
               <ListItem
                 alignItems="flex-start"
@@ -59,7 +63,6 @@ const SideBarList = (props) => {
                     handleSelection({
                       senderId: props.user.userId,
                       conversationName: item.conversationName,
-                      // recipientId: item.recipientId,
                     })
                   }
                   primary={item.conversationName}
@@ -85,5 +88,4 @@ const SideBarList = (props) => {
     </List>
   );
 };
-
 export default SideBarList;
