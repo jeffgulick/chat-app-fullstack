@@ -10,8 +10,6 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const config = require("./data/database");
 
-// CORS middleware
-app.use(cors());
 
 const mongoose = require("mongoose");
 const connect = mongoose
@@ -31,6 +29,8 @@ app.use(cookieParser());
 app.use("/api/users", require("./routes/userRouter"));
 app.use("/api/messages", require("./routes/messagesRouter"));
 
+// CORS middleware
+app.use(cors());
 
 io.on("connection", socket => {
   socket.on("Input Chat Message", (msg) => {
