@@ -4,7 +4,6 @@ const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const { Message } = require("./data/models/messageSchema"); 
-const cors = require("cors");
 
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
@@ -29,7 +28,6 @@ app.use(cookieParser());
 app.use("/api/users", require("./routes/userRouter"));
 app.use("/api/messages", require("./routes/messagesRouter"));
 
-app.use(cors());
 
 io.on("connection", socket => {
   socket.on("Input Chat Message", (msg) => {
