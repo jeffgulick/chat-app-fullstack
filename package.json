@@ -1,10 +1,12 @@
 {
   "scripts": {
     "start": "nodemon server/index.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build",
     "backend": "nodemon server/index.js",
     "frontend": "npm run start --prefix client",
     "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
   },
+
   "author": "Jeff Gulick",
   "license": "ISC",
   "dependencies": {
