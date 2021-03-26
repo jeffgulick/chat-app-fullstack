@@ -6,7 +6,9 @@
     "frontend": "npm run start --prefix client",
     "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
   },
-
+  "engines": {
+    "node": "12.16.2"
+},
   "author": "Jeff Gulick",
   "license": "ISC",
   "dependencies": {
