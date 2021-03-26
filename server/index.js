@@ -1,6 +1,4 @@
-const dotenv = require("dotenv");
 const path = require('path');
-dotenv.config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -58,7 +56,10 @@ io.on("connection", socket => {
   });
 });
 
+  app.use("/images", express.static(path.join(__dirname, "images")));
+
   app.use(express.static("client/build"));
+  app.enable("trust proxy");
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
