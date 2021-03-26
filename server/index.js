@@ -1,3 +1,5 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -7,11 +9,11 @@ const { Message } = require("./data/models/messageSchema");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const config = require("./data/database");
-require('dotenv').config()
+
 
 const mongoose = require("mongoose");
 const connect = mongoose
-  .connect(process.env.MONGODB_URI.mongoURI, {
+  .connect(config.mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

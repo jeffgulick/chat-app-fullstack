@@ -1,5 +1,5 @@
 require('dotenv').config()
 
 module.exports = {
-    mongoURI: process.env.MONGODB_URI
+    mongoURI: "mongodb+srv://el_jefe0:hello@googlecloudfree.m2xpo.mongodb.net/test"
 }
