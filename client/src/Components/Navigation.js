@@ -68,20 +68,10 @@ const Navigation = (props) => {
               variant="h5"
               className={classes.title}
             >
-              TOX
+              TALX
             </Typography>
             {logIn ? (
               <div>
-                <Button color="inherit">
-                  <Link className={classes.link} to="/">
-                    Home
-                  </Link>
-                </Button>
-                <Button color="inherit">
-                  <Link className={classes.link} to="/message">
-                    Chat
-                  </Link>
-                </Button>
                 <Button onClick={logOut} color="inherit">
                   <Link className={classes.link} to="/">
                     LOG OUT
@@ -91,25 +81,19 @@ const Navigation = (props) => {
             ) : (
               <div>
                 <Button color="inherit">
-                  <Link className={classes.link} to="/">
-                    Home
+                  <Link className={classes.link} to="/login">
+                    Sign In
                   </Link>
                 </Button>
                 <Button color="inherit">
                   <Link className={classes.link} to="/register">
-                    Sign Up
-                  </Link>
-                </Button>
-                <Button color="inherit">
-                  <Link className={classes.link} to="/login">
-                    Login
+                    Register
                   </Link>
                 </Button>
               </div>
             )}
           </Toolbar>
         </AppBar>
-        {/* {logIn ? <div className={classes.status}>Logged in as: {props.getUserName.username}</div> : ''} */}
       </Paper>
     </div>
   );

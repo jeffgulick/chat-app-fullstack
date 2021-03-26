@@ -13,7 +13,7 @@ const MsgBar = (props) => {
   return (
     <AppBar className={classes.bar} position="static">
       <Toolbar>
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <Avatar  src="/static/images/avatar/1.jpg" />
         <h5 style={{ marginLeft: "15pt" }}>{username}</h5>
       </Toolbar>
     </AppBar>

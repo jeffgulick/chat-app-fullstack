@@ -6,8 +6,5 @@ import state from './state';
 export default createStore(
     reducers, 
     state,
-    compose(
-        applyMiddleware(thunk),
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-        )
+    applyMiddleware(thunk),
 ) 

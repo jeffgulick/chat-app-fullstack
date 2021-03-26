@@ -34,9 +34,9 @@ const BubbleMe = styled.p`
   padding-bottom: 5pt;
   margin: 7pt;
   border: 2pt solid #2d88ff;
-  border-radius: 25px;
-  -webkit-border-radius: 25px;
-  -moz-border-radius: 25px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
   color: #242526;
   background-color: #2d88ff;
   align-self: flex-end;
@@ -55,9 +55,9 @@ const BubbleYou = styled.p`
   padding-bottom: 5pt;
   margin: 10pt;
   border: 2pt solid #3a3b3c;
-  border-radius: 25px;
-  -webkit-border-radius: 25px;
-  -moz-border-radius: 25px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
   color: white;
   background-color: #3a3b3c;
 `;
@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "15pt",
     marginLeft: "15pt",
     color: "white",
-    // overflowY: "auto",
+    overflowY: "auto",
   },
   input: {
     marginTop: 0,
@@ -104,6 +104,10 @@ const useStyles = makeStyles((theme) => ({
     height: "45px",
     marginLeft: 0,
     marginBottom: "9pt",
+    backgroundColor: "#FC4E50",
+    color:"white",
+    width:"70px",
+    paddingLeft: "40px",
   },
 }));
 
@@ -201,7 +205,6 @@ const Chat = (props) => {
 
             <Button
               variant="contained"
-              color="primary"
               className={classes.button}
               endIcon={<Icon />}
             >
