@@ -7,6 +7,7 @@ const { Message } = require("./data/models/messageSchema");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const config = require("./data/database");
+require('dotenv').config()
 
 const mongoose = require("mongoose");
 const connect = mongoose
