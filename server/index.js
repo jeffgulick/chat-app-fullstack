@@ -10,7 +10,6 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const db = require("./config/production").mongoURI;
 
-app.use(express.static(path.join(__dirname, 'client/build')))
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -19,9 +18,6 @@ app.use(cookieParser());
 app.use("/api/users", require("./routes/userRouter"));
 app.use("/api/messages", require("./routes/messagesRouter"));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+ '/client/build/index.html'))
-})
 const mongoose = require("mongoose");
 const connect = mongoose
   .connect(db, {
@@ -60,6 +56,12 @@ io.on("connection", socket => {
     });
   });
 });
+
+app.use(express.static(path.join(__dirname, 'client/build')))
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+ '/client/build/index.html'))
+})
+
 
 
   app.enable("trust proxy");
