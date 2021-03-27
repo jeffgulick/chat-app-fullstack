@@ -59,8 +59,8 @@ io.on("connection", socket => {
 
 app.use(express.static(path.join(__dirname, 'client/build')))
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+ '/client/build/index.html'))
-})
+//   res.sendFile(path.join(__dirname+ '/client/build/index.html'))
+// })
 
 
 
@@ -68,8 +68,8 @@ app.get('*', (req, res) => {
 
     // app.use(express.static("app/client/build"));
   // app.get("*", (req, res) => {
-  //   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  // });
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
 
 
 const port = process.env.PORT || 3001;
